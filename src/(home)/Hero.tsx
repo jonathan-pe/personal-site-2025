@@ -1,6 +1,5 @@
 // src/components/Hero.tsx
 import { motion } from 'framer-motion'
-import { cn } from '@/lib/utils' // If using shadcn's cn utility
 
 const name = 'Jonathan Pe'
 
@@ -23,7 +22,7 @@ export const Hero = () => {
 
       {/* Cutout Image Behind Text */}
       <motion.img
-        src='/src/assets/cartoon me.png'
+        src='/src/assets/anime me.png'
         alt='Jonathan Pe'
         className='absolute z-10 bottom-0 h-[60%] md:h-[80%] object-contain'
         initial={{ y: 300, opacity: 0 }}
