@@ -10,7 +10,6 @@ export const Route = createRootRoute({
 })
 
 function RootComponent() {
-  console.log('Root component rendering')
   return (
     <ThemeProvider defaultTheme='system' storageKey='personal-site-theme'>
       <SidebarProvider>
