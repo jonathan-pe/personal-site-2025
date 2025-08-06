@@ -31,7 +31,7 @@ export function ThemeToggle() {
   return (
     <Button
       onClick={toggleTheme}
-      className='fixed top-4 right-4 z-50 p-2 transition-colors'
+      className='transition-colors h-8 w-8'
       variant='outline'
       aria-label={`Switch to ${theme === 'light' ? 'dark' : theme === 'dark' ? 'system' : 'light'} theme`}
     >
