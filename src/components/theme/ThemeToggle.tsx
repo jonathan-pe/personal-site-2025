@@ -31,7 +31,7 @@ export function ThemeToggle() {
   return (
     <Button
       onClick={toggleTheme}
-      className='transition-colors h-8 w-8'
+      className='transition-colors h-8 w-8 dark:hover:bg-sidebar-accent! hover:text-sidebar-accent-foreground'
       variant='outline'
       aria-label={`Switch to ${theme === 'light' ? 'dark' : theme === 'dark' ? 'system' : 'light'} theme`}
     >

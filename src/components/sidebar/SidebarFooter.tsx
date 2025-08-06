@@ -40,7 +40,13 @@ export function AppSidebarFooter() {
               {socialLinks.map((link) => {
                 const Icon = link.icon
                 return (
-                  <Button key={link.name} variant='ghost' size='icon' asChild className='h-8 w-8 hover:bg-accent'>
+                  <Button
+                    key={link.name}
+                    variant='ghost'
+                    size='icon'
+                    asChild
+                    className='h-8 w-8 hover:bg-sidebar-accent!'
+                  >
                     <a href={link.url} target='_blank' rel='noopener noreferrer' aria-label={link.label}>
                       <Icon className='h-6 w-6' />
                     </a>
