@@ -3,6 +3,7 @@ import { GithubLogoIcon, LinkedinLogoIcon } from '@phosphor-icons/react'
 import { Button } from '@/components/ui/button'
 import { SidebarFooter, SidebarMenu, SidebarMenuItem, useSidebar } from '@/components/ui/sidebar'
 import { ThemeToggle } from '@/components/theme/ThemeToggle'
+import { MailIcon } from 'lucide-react'
 
 interface SocialLink {
   name: string
@@ -23,6 +24,12 @@ const socialLinks: SocialLink[] = [
     icon: GithubLogoIcon,
     url: 'https://github.com/jonathan-pe',
     label: 'View GitHub Profile',
+  },
+  {
+    name: 'Email',
+    icon: MailIcon,
+    url: 'mailto:jonathanqpe@gmail.com',
+    label: 'Send an Email',
   },
 ]
 
