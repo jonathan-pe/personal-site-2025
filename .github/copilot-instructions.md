@@ -226,5 +226,6 @@ function RouteComponent() {
 ## Code Suggestions
 
 - Always reference the installed version of documentation for any given package/library (fallback to the latest, stable version's documentation)
+- Avoid using any deprecated features or APIs
 
 This file should be updated as the project evolves and new patterns emerge.

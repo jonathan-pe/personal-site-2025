@@ -14,10 +14,10 @@ import {
 
 import { NavMain } from '@/components/sidebar/NavMain'
 import { NavProjects } from '@/components/sidebar/NavProjects'
-import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail, useSidebar } from '@/components/ui/sidebar'
+import { AppSidebarFooter } from '@/components/sidebar/SidebarFooter'
+import { Sidebar, SidebarContent, SidebarHeader, SidebarRail, useSidebar } from '@/components/ui/sidebar'
 import { Avatar, AvatarImage } from '@/components/ui/avatar'
 import { Link } from '@tanstack/react-router'
-import { ThemeToggle } from '@/components/theme/ThemeToggle'
 
 // This is sample data.
 const data = {
@@ -169,9 +169,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavProjects projects={data.projects} />
       </SidebarContent>
 
-      <SidebarFooter className='flex flex-col items-end'>
-        <ThemeToggle />
-      </SidebarFooter>
+      <AppSidebarFooter />
       <SidebarRail />
     </Sidebar>
   )
