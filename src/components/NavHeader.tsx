@@ -8,47 +8,12 @@ import {
 } from '@/components/ui/breadcrumb'
 import { SidebarTrigger } from '@/components/ui/sidebar'
 import { Separator } from '@/components/ui/separator'
-import { useLocation } from '@tanstack/react-router'
+import { useBreadcrumbs } from '@/hooks/useBreadcrumbs'
 import { Fragment } from 'react/jsx-runtime'
+import { Link } from '@tanstack/react-router'
 
 const Header = () => {
-  const location = useLocation()
-
-  // Generate breadcrumbs from the current pathname
-  const generateBreadcrumbs = () => {
-    const pathname = location.pathname
-
-    // For root route, just show "Home"
-    if (pathname === '/') {
-      return [{ label: 'Home', href: '/', isCurrentPage: true }]
-    }
-
-    // Split path into segments and create breadcrumbs
-    const segments = pathname.split('/').filter(Boolean)
-    const breadcrumbs = [{ label: 'Home', href: '/', isCurrentPage: false }]
-
-    let currentPath = ''
-    segments.forEach((segment, index) => {
-      currentPath += `/${segment}`
-      const isLast = index === segments.length - 1
-
-      // Capitalize and format segment for display
-      const label = segment
-        .split('-')
-        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ')
-
-      breadcrumbs.push({
-        label,
-        href: currentPath,
-        isCurrentPage: isLast,
-      })
-    })
-
-    return breadcrumbs
-  }
-
-  const breadcrumbs = generateBreadcrumbs()
+  const { breadcrumbs } = useBreadcrumbs()
 
   return (
     <header className='flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12'>
@@ -64,7 +29,9 @@ const Header = () => {
                   {breadcrumb.isCurrentPage ? (
                     <BreadcrumbPage>{breadcrumb.label}</BreadcrumbPage>
                   ) : (
-                    <BreadcrumbLink href={breadcrumb.href}>{breadcrumb.label}</BreadcrumbLink>
+                    <BreadcrumbLink asChild>
+                      <Link to={breadcrumb.href}>{breadcrumb.label}</Link>
+                    </BreadcrumbLink>
                   )}
                 </BreadcrumbItem>
               </Fragment>
