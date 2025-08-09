@@ -1,3 +1,4 @@
+import HomePage from '@/components/home/HomePage'
 import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/')({
@@ -6,5 +7,9 @@ export const Route = createFileRoute('/')({
 
 function Index() {
   console.log('Index component rendering')
-  return <div className='flex flex-col min-h-screen px-4'>test</div>
+  return (
+    <div className='flex flex-col min-h-screen px-4'>
+      <HomePage />
+    </div>
+  )
 }

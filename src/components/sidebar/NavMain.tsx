@@ -11,6 +11,7 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
+  useSidebar,
 } from '@/components/ui/sidebar'
 import { BookOpen } from 'lucide-react'
 import { Link } from '@tanstack/react-router'
@@ -45,6 +46,8 @@ const items = [
 ]
 
 export function NavMain() {
+  const { state } = useSidebar()
+
   return (
     <SidebarGroup>
       <SidebarMenu>
@@ -55,7 +58,7 @@ export function NavMain() {
                 <div className='relative group/item'>
                   {item.url ? (
                     <Link to={item.url}>
-                      <SidebarMenuButton tooltip={item.title} className='w-full justify-start pr-8'>
+                      <SidebarMenuButton tooltip={item.title} className='w-full justify-start pr-8 cursor-pointer'>
                         {item.icon && <item.icon />}
                         <span>{item.title}</span>
                       </SidebarMenuButton>
@@ -66,11 +69,13 @@ export function NavMain() {
                       <span>{item.title}</span>
                     </SidebarMenuButton>
                   )}
-                  <CollapsibleTrigger asChild>
-                    <button className='absolute right-1 top-1/2 -translate-y-1/2 p-1 rounded-sm hover:bg-accent/80 group-hover/item:text-accent-foreground transition-colors'>
-                      <ChevronRight className='h-4 w-4 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90' />
-                    </button>
-                  </CollapsibleTrigger>
+                  {state === 'expanded' && (
+                    <CollapsibleTrigger asChild>
+                      <button className='absolute right-1 top-1/2 -translate-y-1/2 p-1 rounded-sm hover:bg-accent/80 group-hover/item:text-accent-foreground transition-colors'>
+                        <ChevronRight className='h-4 w-4 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90' />
+                      </button>
+                    </CollapsibleTrigger>
+                  )}
                 </div>
                 <CollapsibleContent>
                   <SidebarMenuSub>
