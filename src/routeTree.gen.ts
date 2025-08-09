@@ -14,7 +14,6 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ResumeIndexRouteImport } from './routes/resume/index'
 import { Route as ProjectsIndexRouteImport } from './routes/projects/index'
 import { Route as ResumeCompanyRouteImport } from './routes/resume/$company'
-import { Route as ProjectsWebDevelopmentRouteImport } from './routes/projects/web-development'
 import { Route as ProjectsProjectRouteImport } from './routes/projects/$project'
 
 const AboutRoute = AboutRouteImport.update({
@@ -42,11 +41,6 @@ const ResumeCompanyRoute = ResumeCompanyRouteImport.update({
   path: '/resume/$company',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ProjectsWebDevelopmentRoute = ProjectsWebDevelopmentRouteImport.update({
-  id: '/projects/web-development',
-  path: '/projects/web-development',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ProjectsProjectRoute = ProjectsProjectRouteImport.update({
   id: '/projects/$project',
   path: '/projects/$project',
@@ -57,7 +51,6 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/projects/$project': typeof ProjectsProjectRoute
-  '/projects/web-development': typeof ProjectsWebDevelopmentRoute
   '/resume/$company': typeof ResumeCompanyRoute
   '/projects': typeof ProjectsIndexRoute
   '/resume': typeof ResumeIndexRoute
@@ -66,7 +59,6 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/projects/$project': typeof ProjectsProjectRoute
-  '/projects/web-development': typeof ProjectsWebDevelopmentRoute
   '/resume/$company': typeof ResumeCompanyRoute
   '/projects': typeof ProjectsIndexRoute
   '/resume': typeof ResumeIndexRoute
@@ -76,7 +68,6 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/projects/$project': typeof ProjectsProjectRoute
-  '/projects/web-development': typeof ProjectsWebDevelopmentRoute
   '/resume/$company': typeof ResumeCompanyRoute
   '/projects/': typeof ProjectsIndexRoute
   '/resume/': typeof ResumeIndexRoute
@@ -87,7 +78,6 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/projects/$project'
-    | '/projects/web-development'
     | '/resume/$company'
     | '/projects'
     | '/resume'
@@ -96,7 +86,6 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/projects/$project'
-    | '/projects/web-development'
     | '/resume/$company'
     | '/projects'
     | '/resume'
@@ -105,7 +94,6 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/projects/$project'
-    | '/projects/web-development'
     | '/resume/$company'
     | '/projects/'
     | '/resume/'
@@ -115,7 +103,6 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   ProjectsProjectRoute: typeof ProjectsProjectRoute
-  ProjectsWebDevelopmentRoute: typeof ProjectsWebDevelopmentRoute
   ResumeCompanyRoute: typeof ResumeCompanyRoute
   ProjectsIndexRoute: typeof ProjectsIndexRoute
   ResumeIndexRoute: typeof ResumeIndexRoute
@@ -158,13 +145,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResumeCompanyRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/projects/web-development': {
-      id: '/projects/web-development'
-      path: '/projects/web-development'
-      fullPath: '/projects/web-development'
-      preLoaderRoute: typeof ProjectsWebDevelopmentRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/projects/$project': {
       id: '/projects/$project'
       path: '/projects/$project'
@@ -179,7 +159,6 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   ProjectsProjectRoute: ProjectsProjectRoute,
-  ProjectsWebDevelopmentRoute: ProjectsWebDevelopmentRoute,
   ResumeCompanyRoute: ResumeCompanyRoute,
   ProjectsIndexRoute: ProjectsIndexRoute,
   ResumeIndexRoute: ResumeIndexRoute,
