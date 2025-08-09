@@ -8,8 +8,6 @@ import {
   MapPin,
   Clock,
   Star,
-  Github,
-  Linkedin,
   Mail,
   ExternalLink,
   Database,
@@ -21,7 +19,8 @@ import { Button } from '@/components/ui/button'
 import { RESUME } from '@/data/resume'
 import { PROJECTS } from '@/data/projects'
 import { SKILLS } from '@/data/skills'
-import profileImage from '@/assets/me (no bg).png'
+import profileImage from '@/assets/profileIcon.jpg'
+import { GithubLogoIcon, LinkedinLogoIcon } from '@phosphor-icons/react'
 
 const HomePage = () => {
   const containerVariants = {
@@ -47,7 +46,14 @@ const HomePage = () => {
   }
 
   const currentJob = RESUME[0]
-  const totalYearsExperience = RESUME.length
+  const totalYearsExperience = (() => {
+    const firstJob = RESUME[RESUME.length - 1] // Assuming RESUME is ordered from newest to oldest
+    const startDate = new Date(firstJob.startDate)
+    const currentDate = new Date()
+    const diffInMilliseconds = currentDate.getTime() - startDate.getTime()
+    const diffInYears = diffInMilliseconds / (1000 * 60 * 60 * 24 * 365.25)
+    return Math.floor(diffInYears)
+  })()
   const totalProjects = PROJECTS.length
   const topSkills = SKILLS.filter((skill) => skill.level >= 4)
 
@@ -56,28 +62,24 @@ const HomePage = () => {
     {
       label: 'Years Experience',
       value: `${totalYearsExperience}+`,
-      change: '+2 this year',
       icon: TrendingUp,
       color: 'text-green-500',
     },
     {
       label: 'Companies',
       value: RESUME.length.toString(),
-      change: 'Top tier tech',
       icon: Users,
       color: 'text-blue-500',
     },
     {
       label: 'Projects',
       value: totalProjects.toString(),
-      change: 'Active portfolio',
       icon: BarChart3,
       color: 'text-purple-500',
     },
     {
       label: 'Skills Mastered',
       value: topSkills.length.toString(),
-      change: 'Expert level',
       icon: Star,
       color: 'text-yellow-500',
     },
@@ -128,7 +130,7 @@ const HomePage = () => {
                 </div>
               </div>
               <div>
-                <h1 className='text-3xl font-bold'>Jonathan Espinoza</h1>
+                <h1 className='text-3xl font-bold'>Jonathan Pe</h1>
                 <p className='text-lg text-muted-foreground'>{currentJob.role}</p>
                 <div className='flex items-center gap-4 mt-2 text-sm text-muted-foreground'>
                   <div className='flex items-center gap-1'>
@@ -148,11 +150,11 @@ const HomePage = () => {
                 Contact
               </Button>
               <Button variant='outline' size='sm'>
-                <Github className='w-4 h-4 mr-2' />
+                <GithubLogoIcon className='w-4 h-4 mr-2' />
                 GitHub
               </Button>
               <Button variant='outline' size='sm'>
-                <Linkedin className='w-4 h-4 mr-2' />
+                <LinkedinLogoIcon className='w-4 h-4 mr-2' />
                 LinkedIn
               </Button>
             </div>
@@ -172,7 +174,6 @@ const HomePage = () => {
                 <div>
                   <p className='text-sm text-muted-foreground'>{metric.label}</p>
                   <p className='text-2xl font-bold'>{metric.value}</p>
-                  <p className={`text-xs ${metric.color}`}>{metric.change}</p>
                 </div>
                 <div className={`p-3 rounded-lg bg-muted/50`}>
                   <metric.icon className={`w-6 h-6 ${metric.color}`} />
@@ -206,8 +207,8 @@ const HomePage = () => {
               </Link>
             </Button>
           </div>
-          <div className='grid md:grid-cols-2 gap-4'>
-            <div>
+          <div className='flex flex-wrap md:flex-nowrap gap-4'>
+            <div className='flex flex-2/3 flex-col'>
               <h3 className='font-medium mb-2'>Key Accomplishments</h3>
               <ul className='space-y-1 text-sm text-muted-foreground'>
                 {currentJob.accomplishments.slice(0, 3).map((accomplishment, index) => (
@@ -218,7 +219,7 @@ const HomePage = () => {
                 ))}
               </ul>
             </div>
-            <div>
+            <div className='flex flex-1/3 flex-col'>
               <h3 className='font-medium mb-2'>Technologies</h3>
               <div className='flex flex-wrap gap-2'>
                 {currentJob.techUsed.map((tech) => (
@@ -232,26 +233,31 @@ const HomePage = () => {
         </motion.div>
 
         {/* Navigation Dashboard */}
-        <div className='grid md:grid-cols-3 gap-6 mb-6'>
+        <div className='flex flex-col md:flex-row gap-6 mb-6'>
           {dashboardSections.map((section) => (
             <motion.div
               key={section.title}
               variants={cardVariants}
               whileHover={{ y: -4, scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
+              className='flex-1 h-[200px]'
             >
-              <Link to={section.path} className='block'>
-                <div className={`bg-gradient-to-br ${section.color} rounded-xl p-6 shadow-lg border h-full`}>
-                  <div className='flex items-center gap-4 mb-4'>
-                    <div className='p-3 bg-background/80 rounded-lg'>
-                      <section.icon className={`w-6 h-6 ${section.iconColor}`} />
+              <Link to={section.path} className='block h-full'>
+                <div
+                  className={`bg-gradient-to-br ${section.color} rounded-xl p-6 shadow-lg border h-full flex flex-col justify-between`}
+                >
+                  <div>
+                    <div className='flex items-center gap-4 mb-4'>
+                      <div className='p-3 bg-background/80 rounded-lg'>
+                        <section.icon className={`w-6 h-6 ${section.iconColor}`} />
+                      </div>
+                      <div>
+                        <h3 className='font-semibold text-lg'>{section.title}</h3>
+                      </div>
                     </div>
-                    <div>
-                      <h3 className='font-semibold text-lg'>{section.title}</h3>
-                    </div>
+                    <p className='text-muted-foreground text-sm mb-4 flex-grow'>{section.description}</p>
                   </div>
-                  <p className='text-muted-foreground text-sm mb-4'>{section.description}</p>
-                  <div className='flex items-center text-sm font-medium'>
+                  <div className='flex items-center text-sm font-medium mt-auto'>
                     <span>Explore</span>
                     <ExternalLink className='w-4 h-4 ml-2' />
                   </div>
