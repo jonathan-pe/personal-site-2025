@@ -34,7 +34,7 @@ function RouteComponent() {
         </Button>
         <div>
           <h1 className='text-3xl font-bold'>{job.companyName}</h1>
-          <p className='text-xl text-muted-foreground'>{job.role}</p>
+          <p className='text-xl'>{job.role}</p>
           <p className='text-sm text-muted-foreground'>
             {job.startDate} - {job.endDate}
           </p>
