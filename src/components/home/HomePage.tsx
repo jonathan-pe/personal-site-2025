@@ -15,14 +15,13 @@ import {
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
+import { ScrollableContainer } from '@/components/ui/scrollable-container'
 import { RESUME } from '@/data/resume'
 import { PROJECTS } from '@/data/projects'
 import { SKILLS } from '@/data/skills'
 import profileImage from '@/assets/profileIcon.jpg'
 import { GithubLogoIcon, LinkedinLogoIcon } from '@phosphor-icons/react'
 import TechBadge from '@/components/TechBadge'
-
-const MAX_TECH_DISPLAY = 6
 
 const HomePage = () => {
   const containerVariants = {
@@ -333,16 +332,13 @@ const HomePage = () => {
                   </div>
                 </div>
                 <p className='text-sm text-muted-foreground mb-3 flex-grow'>{project.description}</p>
-                <div className='flex flex-wrap gap-1 mt-auto'>
-                  {project.techUsed.slice(0, MAX_TECH_DISPLAY).map((tech) => (
-                    <TechBadge key={tech} tech={tech} />
-                  ))}
-                  {project.techUsed.length > MAX_TECH_DISPLAY && (
-                    <span className='px-2 py-1 bg-muted text-muted-foreground text-xs rounded-md'>
-                      +{project.techUsed.length - MAX_TECH_DISPLAY} more
-                    </span>
-                  )}
-                </div>
+                <ScrollableContainer className='mt-auto'>
+                  <div className='flex gap-1 pb-2 min-w-fit'>
+                    {project.techUsed.map((tech) => (
+                      <TechBadge key={tech} tech={tech} />
+                    ))}
+                  </div>
+                </ScrollableContainer>
               </div>
             ))}
           </div>
