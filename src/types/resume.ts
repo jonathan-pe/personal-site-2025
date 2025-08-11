@@ -9,4 +9,8 @@ export interface Job {
   icon: Icon
   accomplishments: string[]
   techUsed: string[]
+  stackFocus: {
+    frontend: number // percentage (0-100)
+    backend: number // percentage (0-100)
+  }
 }

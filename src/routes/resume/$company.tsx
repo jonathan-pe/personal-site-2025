@@ -4,24 +4,26 @@ import { motion, AnimatePresence } from 'framer-motion'
 import {
   Calendar,
   Clock,
-  TrendingUp,
-  Code2,
   Star,
   ArrowLeft,
   ChevronDown,
   ChevronUp,
   Target,
   Zap,
-  Users,
-  Award,
   BarChart3,
   GitBranch,
+  Award,
+  Code2,
+  TrendingUp,
 } from 'lucide-react'
 
 import { RESUME } from '@/data/resume'
 import { useBreadcrumbs } from '@/hooks/useBreadcrumbs'
 import { Button } from '@/components/ui/button'
 import TechBadge from '@/components/TechBadge'
+import { getTechFocus, getTechCategory, calculateStackComplexity } from '@/data/techCategories'
+import { categorizeAccomplishments, getAccomplishmentStats } from '@/data/accomplishmentCategories'
+import { analyzeRole } from '@/data/roleAnalysis'
 
 export const Route = createFileRoute('/resume/$company')({
   loader: ({ params }) => {
@@ -68,6 +70,13 @@ function RouteComponent() {
   }
 
   const duration = calculateDuration(job.startDate, job.endDate)
+
+  // Dynamic analysis using new systems
+  const techFocus = getTechFocus(job.techUsed)
+  const roleContext = analyzeRole(job)
+  const stackComplexity = calculateStackComplexity(job.techUsed)
+  const categorizedAccomplishments = categorizeAccomplishments(job.accomplishments)
+  const accomplishmentStats = getAccomplishmentStats(categorizedAccomplishments)
 
   const toggleSection = (section: string) => {
     const newExpanded = new Set(expandedSections)
@@ -121,45 +130,6 @@ function RouteComponent() {
       },
     },
   }
-
-  // Enhanced accomplishment categorization
-  const categorizeAccomplishments = (accomplishments: string[]) => {
-    return accomplishments.map((accomplishment, index) => {
-      const text = accomplishment.toLowerCase()
-      let category = 'general'
-      let impact = 'medium'
-      let icon = Target
-
-      // Categorize based on keywords
-      if (text.includes('led') || text.includes('spearheaded') || text.includes('championed')) {
-        category = 'leadership'
-        icon = Users
-        impact = 'high'
-      } else if (text.includes('built') || text.includes('developed') || text.includes('created')) {
-        category = 'development'
-        icon = Code2
-        impact = 'high'
-      } else if (text.includes('improved') || text.includes('enhanced') || text.includes('optimized')) {
-        category = 'improvement'
-        icon = TrendingUp
-        impact = 'medium'
-      } else if (text.includes('collaborated') || text.includes('partnered') || text.includes('mentoring')) {
-        category = 'collaboration'
-        icon = Users
-        impact = 'medium'
-      }
-
-      return {
-        text: accomplishment,
-        category,
-        impact,
-        icon,
-        id: index,
-      }
-    })
-  }
-
-  const categorizedAccomplishments = categorizeAccomplishments(job.accomplishments)
 
   return (
     <motion.div className='min-h-screen bg-background' variants={containerVariants} initial='hidden' animate='visible'>
@@ -308,9 +278,9 @@ function RouteComponent() {
                         <div className='flex items-center justify-between p-3 bg-background rounded-lg border'>
                           <div className='flex items-center gap-2'>
                             <TrendingUp className='w-4 h-4 text-primary' />
-                            <span className='text-sm'>Duration</span>
+                            <span className='text-sm'>Impact Score</span>
                           </div>
-                          <span className='font-bold'>{duration}</span>
+                          <span className='font-bold'>{accomplishmentStats.impactPercentage}%</span>
                         </div>
                       </div>
                     </div>
@@ -342,29 +312,11 @@ function RouteComponent() {
                       <div className='space-y-2 text-sm'>
                         <div className='flex items-start gap-2'>
                           <div className='w-1 h-1 bg-primary rounded-full mt-2 flex-shrink-0' />
-                          <span>
-                            {currentJobIndex === 0
-                              ? 'Most recent position'
-                              : currentJobIndex === RESUME.length - 1
-                              ? 'First professional role'
-                              : `${RESUME.length - currentJobIndex} of ${RESUME.length} positions`}
-                          </span>
+                          <span>{roleContext.description}</span>
                         </div>
-                        {isCurrentRole && (
-                          <div className='flex items-start gap-2'>
-                            <div className='w-1 h-1 bg-accent rounded-full mt-2 flex-shrink-0' />
-                            <span className='text-accent'>Currently active role</span>
-                          </div>
-                        )}
                         <div className='flex items-start gap-2'>
                           <div className='w-1 h-1 bg-primary rounded-full mt-2 flex-shrink-0' />
-                          <span>
-                            {job.role.includes('Senior')
-                              ? 'Senior-level position'
-                              : job.role.includes('Full Stack')
-                              ? 'Full-stack development role'
-                              : 'Software engineering position'}
-                          </span>
+                          <span>Top focus: {accomplishmentStats.topCategories[0]?.category || 'Development'}</span>
                         </div>
                       </div>
                     </div>
@@ -423,18 +375,20 @@ function RouteComponent() {
                       >
                         <div className='flex items-start gap-4'>
                           <div className='p-2 rounded-lg bg-primary/10'>
-                            <accomplishment.icon className='w-4 h-4 text-primary' />
+                            <accomplishment.category.icon className='w-4 h-4 text-primary' />
                           </div>
                           <div className='flex-1'>
                             <p className='text-sm leading-relaxed'>{accomplishment.text}</p>
                             <div className='flex items-center gap-3 mt-2'>
                               <span className='text-xs px-2 py-1 rounded-full bg-accent/10 text-accent'>
-                                {accomplishment.category}
+                                {accomplishment.category.name}
                               </span>
                               <span
                                 className={`text-xs px-2 py-1 rounded-full ${
                                   accomplishment.impact === 'high'
                                     ? 'bg-green-500/10 text-green-600'
+                                    : accomplishment.impact === 'medium'
+                                    ? 'bg-yellow-500/10 text-yellow-600'
                                     : 'bg-muted text-muted-foreground'
                                 }`}
                               >
@@ -508,21 +462,7 @@ function RouteComponent() {
                                 <TechBadge tech={tech} />
                               </motion.div>
                             </div>
-                            <div className='text-xs text-muted-foreground'>
-                              {tech.includes('React')
-                                ? 'Frontend Framework'
-                                : tech.includes('Node')
-                                ? 'Backend Runtime'
-                                : tech.includes('TypeScript') || tech.includes('JavaScript')
-                                ? 'Programming Language'
-                                : tech.includes('CSS') || tech.includes('HTML')
-                                ? 'Styling/Markup'
-                                : tech.includes('GraphQL')
-                                ? 'Query Language'
-                                : tech.includes('Jest')
-                                ? 'Testing Framework'
-                                : 'Technology'}
-                            </div>
+                            <div className='text-xs text-muted-foreground'>{getTechCategory(tech).name}</div>
                           </motion.div>
                         ))}
                       </div>
@@ -539,15 +479,7 @@ function RouteComponent() {
                             <Zap className='w-4 h-4 text-primary' />
                             <span className='font-medium text-sm'>Tech Focus</span>
                           </div>
-                          <p className='text-sm text-muted-foreground'>
-                            {job.techUsed.includes('React')
-                              ? 'Frontend-focused with React ecosystem expertise'
-                              : job.techUsed.includes('Java')
-                              ? 'Backend-heavy with Java enterprise development'
-                              : job.techUsed.includes('Node.js')
-                              ? 'Full-stack JavaScript development'
-                              : 'Full-stack development across multiple technologies'}
-                          </p>
+                          <p className='text-sm text-muted-foreground'>{techFocus.description}</p>
                         </div>
                         <div className='p-4 bg-background rounded-lg border'>
                           <div className='flex items-center gap-2 mb-2'>
@@ -558,11 +490,39 @@ function RouteComponent() {
                             <motion.div
                               className='bg-primary rounded-full h-2'
                               initial={{ width: 0 }}
-                              animate={{ width: `${Math.min((job.techUsed.length / 10) * 100, 100)}%` }}
+                              animate={{ width: `${stackComplexity.score}%` }}
                               transition={{ delay: 0.5, duration: 1 }}
                             />
                           </div>
-                          <p className='text-xs text-muted-foreground'>{job.techUsed.length} technologies used</p>
+                          <p className='text-xs text-muted-foreground'>
+                            {stackComplexity.level} - {stackComplexity.description} ({job.techUsed.length} technologies)
+                          </p>
+                        </div>
+                        <div className='p-4 bg-background rounded-lg border'>
+                          <div className='flex items-center gap-2 mb-3'>
+                            <GitBranch className='w-4 h-4 text-primary' />
+                            <span className='font-medium text-sm'>Frontend/Backend Split</span>
+                          </div>
+                          <div className='space-y-3'>
+                            <div className='flex items-center justify-between text-xs mb-2'>
+                              <span className='text-primary font-medium'>Frontend {job.stackFocus.frontend}%</span>
+                              <span className='text-accent font-medium'>Backend {job.stackFocus.backend}%</span>
+                            </div>
+                            <div className='w-full bg-muted rounded-full h-3 overflow-hidden relative'>
+                              <motion.div
+                                className='bg-primary h-full absolute left-0 top-0'
+                                initial={{ width: 0 }}
+                                animate={{ width: `${job.stackFocus.frontend}%` }}
+                                transition={{ delay: 0.5, duration: 1, ease: 'easeInOut' }}
+                              />
+                              <motion.div
+                                className='bg-accent h-full absolute right-0 top-0'
+                                initial={{ width: 0 }}
+                                animate={{ width: `${job.stackFocus.backend}%` }}
+                                transition={{ delay: 0.5, duration: 1, ease: 'easeInOut' }}
+                              />
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>

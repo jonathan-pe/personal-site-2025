@@ -17,6 +17,10 @@ export const RESUME: Array<Job> = [
       'Wrote and maintained end-to-end tests with Jest to ensure application reliability and feature coverage',
     ],
     techUsed: ['React', 'TypeScript', 'Jest', 'GraphQL', 'HTML', 'CSS'],
+    stackFocus: {
+      frontend: 95,
+      backend: 5,
+    },
   },
   {
     id: 'apple',
@@ -34,11 +38,15 @@ export const RESUME: Array<Job> = [
       'Delivered UX enhancements within strict security and compliance constraints, balancing usability with platform guardrails and performance goals',
     ],
     techUsed: ['React', 'JavaScript', 'GraphQL', 'Hasura', 'Node.js', 'LESS/SCSS', 'ant-design', 'HTML', 'CSS'],
+    stackFocus: {
+      frontend: 90,
+      backend: 10,
+    },
   },
   {
     id: 'reputation',
     companyName: 'Reputation',
-    role: 'Senior Frontend Software Engineer',
+    role: 'Frontend Software Engineer',
     startDate: 'Nov 2021',
     endDate: 'Oct 2022',
     icon: ReputationIcon,
@@ -49,6 +57,10 @@ export const RESUME: Array<Job> = [
       'Refactored underlying Front-End infrastructure, making Front-End development easier and quicker',
     ],
     techUsed: ['React', 'Angular', 'HTML', 'CSS', 'JavaScript'],
+    stackFocus: {
+      frontend: 100,
+      backend: 0,
+    },
   },
   {
     id: 'dolbyIO',
@@ -63,6 +75,10 @@ export const RESUME: Array<Job> = [
       'Created a new Node.js microservice to handle 3rd party integrations with our APIs, improving system efficiency and enabling seamless data exchange',
     ],
     techUsed: ['React', 'Redux', 'styled-components', 'Node.js', 'JavaScript', 'HTML', 'CSS'],
+    stackFocus: {
+      frontend: 75,
+      backend: 25,
+    },
   },
   {
     id: 'STRATIM_OPENLANE',
@@ -79,6 +95,10 @@ export const RESUME: Array<Job> = [
       'Automated the iOS release/deployment process with fastlane',
     ],
     techUsed: ['Java', 'Swift', 'React', 'React Native', 'Vue.js', 'iOS', 'HTML', 'CSS'],
+    stackFocus: {
+      frontend: 40,
+      backend: 60,
+    },
   },
   {
     id: 'gliffy',
@@ -93,5 +113,9 @@ export const RESUME: Array<Job> = [
       'Created a suite of Node.js microservices, allowing for better scalability and increasing engineering efficiency and output',
     ],
     techUsed: ['Ember.js', 'JavaScript', 'Node.js', 'LESS/SCSS', 'HTML', 'CSS'],
+    stackFocus: {
+      frontend: 50,
+      backend: 50,
+    },
   },
 ]
