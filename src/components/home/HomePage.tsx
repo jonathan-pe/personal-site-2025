@@ -134,17 +134,23 @@ const HomePage = () => {
               </div>
             </div>
             <div className='flex gap-3'>
-              <Button variant='outline' size='sm'>
-                <Mail className='w-4 h-4 mr-2' />
-                Contact
+              <Button asChild variant='outline' size='sm'>
+                <a href='mailto:jonathanqpe@gmail.com'>
+                  <Mail className='w-4 h-4 mr-2' />
+                  Contact
+                </a>
               </Button>
-              <Button variant='outline' size='sm'>
-                <GithubLogoIcon className='w-4 h-4 mr-2' />
-                GitHub
+              <Button asChild variant='outline' size='sm'>
+                <a href='https://github.com/jonathan-pe' target='_blank' rel='noopener noreferrer'>
+                  <GithubLogoIcon className='w-4 h-4 mr-2' />
+                  GitHub
+                </a>
               </Button>
-              <Button variant='outline' size='sm'>
-                <LinkedinLogoIcon className='w-4 h-4 mr-2' />
-                LinkedIn
+              <Button asChild variant='outline' size='sm'>
+                <a href='https://linkedin.com/in/jonathanqpe' target='_blank' rel='noopener noreferrer'>
+                  <LinkedinLogoIcon className='w-4 h-4 mr-2' />
+                  LinkedIn
+                </a>
               </Button>
             </div>
           </div>
