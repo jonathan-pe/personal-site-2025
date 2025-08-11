@@ -422,35 +422,19 @@ function RouteComponent() {
                         }}
                       >
                         <div className='flex items-start gap-4'>
-                          <div
-                            className={`p-2 rounded-lg ${
-                              accomplishment.impact === 'high' ? 'bg-accent/10' : 'bg-primary/10'
-                            }`}
-                          >
-                            <accomplishment.icon
-                              className={`w-4 h-4 ${accomplishment.impact === 'high' ? 'text-accent' : 'text-primary'}`}
-                            />
+                          <div className='p-2 rounded-lg bg-primary/10'>
+                            <accomplishment.icon className='w-4 h-4 text-primary' />
                           </div>
                           <div className='flex-1'>
                             <p className='text-sm leading-relaxed'>{accomplishment.text}</p>
                             <div className='flex items-center gap-3 mt-2'>
-                              <span
-                                className={`text-xs px-2 py-1 rounded-full ${
-                                  accomplishment.category === 'leadership'
-                                    ? 'bg-accent/10 text-accent'
-                                    : accomplishment.category === 'development'
-                                    ? 'bg-primary/10 text-primary'
-                                    : accomplishment.category === 'improvement'
-                                    ? 'bg-green-500/10 text-green-600'
-                                    : 'bg-muted text-muted-foreground'
-                                }`}
-                              >
+                              <span className='text-xs px-2 py-1 rounded-full bg-accent/10 text-accent'>
                                 {accomplishment.category}
                               </span>
                               <span
                                 className={`text-xs px-2 py-1 rounded-full ${
                                   accomplishment.impact === 'high'
-                                    ? 'bg-accent/10 text-accent'
+                                    ? 'bg-green-500/10 text-green-600'
                                     : 'bg-muted text-muted-foreground'
                                 }`}
                               >
