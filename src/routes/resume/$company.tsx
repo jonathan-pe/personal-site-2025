@@ -14,7 +14,6 @@ import {
   Zap,
   Users,
   Award,
-  ExternalLink,
   BarChart3,
   GitBranch,
 } from 'lucide-react'
@@ -324,10 +323,10 @@ function RouteComponent() {
                       <div className='flex flex-wrap gap-2'>
                         {job.techUsed.map((tech, index) => (
                           <motion.div
-                            key={tech}
+                            key={`${tech}-${job.id}`}
                             initial={{ opacity: 0, scale: 0.8 }}
                             animate={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: index * 0.1 }}
+                            transition={{ delay: index * 0.05 }}
                           >
                             <TechBadge tech={tech} />
                           </motion.div>
@@ -411,12 +410,16 @@ function RouteComponent() {
                   <div className='pt-6 space-y-4'>
                     {categorizedAccomplishments.map((accomplishment, index) => (
                       <motion.div
-                        key={accomplishment.id}
-                        className='group p-4 bg-background rounded-lg border hover:border-primary/30 transition-all'
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: index * 0.1 }}
-                        whileHover={{ x: 4 }}
+                        key={`${accomplishment.id}-${job.id}`}
+                        className='group p-4 bg-background rounded-lg border hover:border-primary/30 transition-colors'
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{
+                          delay: index * 0.03,
+                          type: 'spring',
+                          stiffness: 200,
+                          damping: 20,
+                        }}
                       >
                         <div className='flex items-start gap-4'>
                           <div
@@ -506,14 +509,20 @@ function RouteComponent() {
                       <div className='grid gap-3'>
                         {job.techUsed.map((tech, index) => (
                           <motion.div
-                            key={tech}
+                            key={`${tech}-${job.id}`}
                             className='flex items-center justify-between p-3 bg-background rounded-lg border'
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: index * 0.05 }}
                           >
                             <div className='flex items-center gap-3'>
-                              <TechBadge tech={tech} />
+                              <motion.div
+                                initial={{ opacity: 0, scale: 0.8 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ delay: index * 0.1 }}
+                              >
+                                <TechBadge tech={tech} />
+                              </motion.div>
                             </div>
                             <div className='text-xs text-muted-foreground'>
                               {tech.includes('React')
