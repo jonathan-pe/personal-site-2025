@@ -8,6 +8,12 @@ export const SKILLS: Array<Skill> = [
     category: 'Frontend',
   },
   {
+    id: 'typescript',
+    name: 'TypeScript',
+    level: 4,
+    category: 'Frontend',
+  },
+  {
     id: 'javascript',
     name: 'JavaScript',
     level: 5,

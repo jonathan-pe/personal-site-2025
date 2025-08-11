@@ -197,8 +197,7 @@ const HomePage = () => {
             </div>
             <Button asChild variant='outline' size='sm'>
               <Link to='/resume/$company' params={{ company: currentJob.id }}>
-                View Details
-                <ExternalLink className='w-4 h-4 ml-2' />
+                Details
               </Link>
             </Button>
           </div>
@@ -235,22 +234,25 @@ const HomePage = () => {
               whileTap={{ scale: 0.98 }}
               className='flex-1 h-[200px]'
             >
-              <Link to={section.path} className='block h-full'>
-                <div className={`bg-card rounded-xl p-6 shadow-lg border h-full flex flex-col justify-between`}>
+              <Link to={section.path} className='block h-full group'>
+                <div
+                  className={`bg-card rounded-xl p-6 shadow-lg border h-full flex flex-col justify-between hover:border-primary/50 transition-colors`}
+                >
                   <div>
                     <div className='flex items-center gap-4 mb-4'>
-                      <div className='p-3 bg-muted rounded-lg'>
+                      <div className='p-3 bg-primary/10 rounded-lg group-hover:bg-primary/20 transition-colors'>
                         <section.icon className='w-6 h-6 text-primary' />
                       </div>
                       <div>
-                        <h3 className='font-semibold text-lg'>{section.title}</h3>
+                        <h3 className='font-semibold text-lg group-hover:text-primary transition-colors'>
+                          {section.title}
+                        </h3>
                       </div>
                     </div>
                     <p className='text-muted-foreground text-sm mb-4 flex-grow'>{section.description}</p>
                   </div>
-                  <div className='flex items-center text-sm font-medium mt-auto'>
-                    <span>Explore</span>
-                    <ExternalLink className='w-4 h-4 ml-2' />
+                  <div className='flex items-center justify-between mt-auto'>
+                    <span className='text-sm font-medium text-primary'>Explore →</span>
                   </div>
                 </div>
               </Link>
@@ -263,10 +265,7 @@ const HomePage = () => {
           <div className='flex items-center justify-between mb-6'>
             <h2 className='text-xl font-semibold'>Skills Distribution</h2>
             <Button asChild variant='outline' size='sm'>
-              <Link to='/about'>
-                View All
-                <ExternalLink className='w-4 h-4 ml-2' />
-              </Link>
+              <Link to='/about'>View All</Link>
             </Button>
           </div>
           <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4'>
@@ -310,15 +309,12 @@ const HomePage = () => {
           <div className='flex items-center justify-between mb-6'>
             <h2 className='text-xl font-semibold'>Recent Projects</h2>
             <Button asChild variant='outline' size='sm'>
-              <Link to='/projects'>
-                View All
-                <ExternalLink className='w-4 h-4 ml-2' />
-              </Link>
+              <Link to='/projects'>View All</Link>
             </Button>
           </div>
           <div className='grid md:grid-cols-2 gap-6'>
             {PROJECTS.slice(0, 2).map((project) => (
-              <div key={project.id} className='bg-muted/30 rounded-lg p-4 border'>
+              <div key={project.id} className='bg-muted/30 rounded-lg p-4 border flex flex-col'>
                 <div className='flex items-center justify-between mb-3'>
                   <h3 className='font-semibold'>{project.title}</h3>
                   <div className='flex gap-2'>
@@ -336,8 +332,8 @@ const HomePage = () => {
                     )}
                   </div>
                 </div>
-                <p className='text-sm text-muted-foreground mb-3'>{project.description}</p>
-                <div className='flex flex-wrap gap-1'>
+                <p className='text-sm text-muted-foreground mb-3 flex-grow'>{project.description}</p>
+                <div className='flex flex-wrap gap-1 mt-auto'>
                   {project.techUsed.slice(0, MAX_TECH_DISPLAY).map((tech) => (
                     <TechBadge key={tech} tech={tech} />
                   ))}
