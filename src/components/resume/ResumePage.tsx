@@ -121,7 +121,7 @@ const ResumePage = () => {
 
   return (
     <div className='min-h-screen bg-background p-6'>
-      <motion.div variants={containerVariants} initial='hidden' animate='visible' className=' mx-auto'>
+      <motion.div variants={containerVariants} initial='hidden' animate='visible' className='max-w-7xl mx-auto'>
         {/* Dashboard Header */}
         <motion.div className='mb-8' variants={timelineItemVariants}>
           <div className='flex items-center justify-between mb-6'>

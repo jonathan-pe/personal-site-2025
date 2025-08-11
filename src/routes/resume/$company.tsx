@@ -133,9 +133,9 @@ function RouteComponent() {
 
   return (
     <motion.div className='min-h-screen bg-background' variants={containerVariants} initial='hidden' animate='visible'>
-      {/* Header with Back Navigation */}
+      {/* Header with Back Navigation - Full width background */}
       <motion.div className='border-b bg-card/50 backdrop-blur-sm sticky top-0 z-10' variants={itemVariants}>
-        <div className='p-6'>
+        <div className='max-w-7xl mx-auto p-6'>
           <div className='flex items-center gap-4 mb-4'>
             <Link to='/resume'>
               <Button variant='ghost' size='sm' className='gap-2'>
@@ -221,317 +221,321 @@ function RouteComponent() {
         </div>
       </motion.div>
 
-      <div className='p-6 space-y-8'>
-        {/* Role Overview Section */}
-        <motion.div className='bg-card rounded-lg border shadow-sm overflow-hidden' variants={itemVariants}>
-          <button
-            onClick={() => toggleSection('overview')}
-            className='w-full p-6 flex items-center justify-between hover:bg-muted/50 transition-colors'
-          >
-            <div className='flex items-center gap-3'>
-              <div className='p-2 bg-primary/10 rounded-lg'>
-                <Star className='w-5 h-5 text-primary' />
-              </div>
-              <div className='text-left'>
-                <h2 className='text-xl font-semibold'>Role Overview</h2>
-                <p className='text-sm text-muted-foreground'>Impact highlights and key metrics</p>
-              </div>
-            </div>
-            {expandedSections.has('overview') ? (
-              <ChevronUp className='w-5 h-5 text-muted-foreground' />
-            ) : (
-              <ChevronDown className='w-5 h-5 text-muted-foreground' />
-            )}
-          </button>
-
-          <AnimatePresence>
-            {expandedSections.has('overview') && (
-              <motion.div
-                variants={sectionVariants}
-                initial='hidden'
-                animate='visible'
-                exit='exit'
-                className='overflow-hidden'
-              >
-                <div className='px-6 pb-6 border-t bg-muted/20'>
-                  <div className='grid md:grid-cols-3 gap-6 pt-6'>
-                    {/* Key metrics */}
-                    <div className='space-y-4'>
-                      <h3 className='font-semibold text-sm uppercase tracking-wide text-muted-foreground'>
-                        Impact Metrics
-                      </h3>
-                      <div className='space-y-3'>
-                        <div className='flex items-center justify-between p-3 bg-background rounded-lg border'>
-                          <div className='flex items-center gap-2'>
-                            <Award className='w-4 h-4 text-primary' />
-                            <span className='text-sm'>Accomplishments</span>
-                          </div>
-                          <span className='font-bold'>{job.accomplishments.length}</span>
-                        </div>
-                        <div className='flex items-center justify-between p-3 bg-background rounded-lg border'>
-                          <div className='flex items-center gap-2'>
-                            <Code2 className='w-4 h-4 text-primary' />
-                            <span className='text-sm'>Technologies</span>
-                          </div>
-                          <span className='font-bold'>{job.techUsed.length}</span>
-                        </div>
-                        <div className='flex items-center justify-between p-3 bg-background rounded-lg border'>
-                          <div className='flex items-center gap-2'>
-                            <TrendingUp className='w-4 h-4 text-primary' />
-                            <span className='text-sm'>Impact Score</span>
-                          </div>
-                          <span className='font-bold'>{accomplishmentStats.impactPercentage}%</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Technology breakdown */}
-                    <div className='space-y-4'>
-                      <h3 className='font-semibold text-sm uppercase tracking-wide text-muted-foreground'>
-                        Tech Stack
-                      </h3>
-                      <div className='flex flex-wrap gap-2'>
-                        {job.techUsed.map((tech, index) => (
-                          <motion.div
-                            key={`${tech}-${job.id}`}
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: index * 0.05 }}
-                          >
-                            <TechBadge tech={tech} />
-                          </motion.div>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Role context */}
-                    <div className='space-y-4'>
-                      <h3 className='font-semibold text-sm uppercase tracking-wide text-muted-foreground'>
-                        Career Context
-                      </h3>
-                      <div className='space-y-2 text-sm'>
-                        <div className='flex items-start gap-2'>
-                          <div className='w-1 h-1 bg-primary rounded-full mt-2 flex-shrink-0' />
-                          <span>{roleContext.description}</span>
-                        </div>
-                        <div className='flex items-start gap-2'>
-                          <div className='w-1 h-1 bg-primary rounded-full mt-2 flex-shrink-0' />
-                          <span>Top focus: {accomplishmentStats.topCategories[0]?.category || 'Development'}</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+      {/* Main Content - Constrained width */}
+      <div className='max-w-7xl mx-auto'>
+        <div className='p-6 space-y-8'>
+          {/* Role Overview Section */}
+          <motion.div className='bg-card rounded-lg border shadow-sm overflow-hidden' variants={itemVariants}>
+            <button
+              onClick={() => toggleSection('overview')}
+              className='w-full p-6 flex items-center justify-between hover:bg-muted/50 transition-colors'
+            >
+              <div className='flex items-center gap-3'>
+                <div className='p-2 bg-primary/10 rounded-lg'>
+                  <Star className='w-5 h-5 text-primary' />
                 </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </motion.div>
-
-        {/* Detailed Accomplishments Section */}
-        <motion.div className='bg-card rounded-lg border shadow-sm overflow-hidden' variants={itemVariants}>
-          <button
-            onClick={() => toggleSection('accomplishments')}
-            className='w-full p-6 flex items-center justify-between hover:bg-muted/50 transition-colors'
-          >
-            <div className='flex items-center gap-3'>
-              <div className='p-2 bg-primary/10 rounded-lg'>
-                <Target className='w-5 h-5 text-primary' />
-              </div>
-              <div className='text-left'>
-                <h2 className='text-xl font-semibold'>Key Accomplishments</h2>
-                <p className='text-sm text-muted-foreground'>Detailed breakdown of impact and achievements</p>
-              </div>
-            </div>
-            {expandedSections.has('accomplishments') ? (
-              <ChevronUp className='w-5 h-5 text-muted-foreground' />
-            ) : (
-              <ChevronDown className='w-5 h-5 text-muted-foreground' />
-            )}
-          </button>
-
-          <AnimatePresence>
-            {expandedSections.has('accomplishments') && (
-              <motion.div
-                variants={sectionVariants}
-                initial='hidden'
-                animate='visible'
-                exit='exit'
-                className='overflow-hidden'
-              >
-                <div className='px-6 pb-6 border-t bg-muted/20'>
-                  <div className='pt-6 space-y-4'>
-                    {categorizedAccomplishments.map((accomplishment, index) => (
-                      <motion.div
-                        key={`${accomplishment.id}-${job.id}`}
-                        className='group p-4 bg-background rounded-lg border hover:border-primary/30 transition-colors'
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{
-                          delay: index * 0.03,
-                          type: 'spring',
-                          stiffness: 200,
-                          damping: 20,
-                        }}
-                      >
-                        <div className='flex items-start gap-4'>
-                          <div className='p-2 rounded-lg bg-primary/10'>
-                            <accomplishment.category.icon className='w-4 h-4 text-primary' />
-                          </div>
-                          <div className='flex-1'>
-                            <p className='text-sm leading-relaxed'>{accomplishment.text}</p>
-                            <div className='flex items-center gap-3 mt-2'>
-                              <span className='text-xs px-2 py-1 rounded-full bg-accent/10 text-accent'>
-                                {accomplishment.category.name}
-                              </span>
-                              <span
-                                className={`text-xs px-2 py-1 rounded-full ${
-                                  accomplishment.impact === 'high'
-                                    ? 'bg-green-500/10 text-green-600'
-                                    : accomplishment.impact === 'medium'
-                                    ? 'bg-yellow-500/10 text-yellow-600'
-                                    : 'bg-muted text-muted-foreground'
-                                }`}
-                              >
-                                {accomplishment.impact} impact
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      </motion.div>
-                    ))}
-                  </div>
+                <div className='text-left'>
+                  <h2 className='text-xl font-semibold'>Role Overview</h2>
+                  <p className='text-sm text-muted-foreground'>Impact highlights and key metrics</p>
                 </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </motion.div>
-
-        {/* Technology Deep Dive Section */}
-        <motion.div className='bg-card rounded-lg border shadow-sm overflow-hidden' variants={itemVariants}>
-          <button
-            onClick={() => toggleSection('technology')}
-            className='w-full p-6 flex items-center justify-between hover:bg-muted/50 transition-colors'
-          >
-            <div className='flex items-center gap-3'>
-              <div className='p-2 bg-primary/10 rounded-lg'>
-                <Code2 className='w-5 h-5 text-primary' />
               </div>
-              <div className='text-left'>
-                <h2 className='text-xl font-semibold'>Technology Deep Dive</h2>
-                <p className='text-sm text-muted-foreground'>Technical stack and implementation details</p>
-              </div>
-            </div>
-            {expandedSections.has('technology') ? (
-              <ChevronUp className='w-5 h-5 text-muted-foreground' />
-            ) : (
-              <ChevronDown className='w-5 h-5 text-muted-foreground' />
-            )}
-          </button>
+              {expandedSections.has('overview') ? (
+                <ChevronUp className='w-5 h-5 text-muted-foreground' />
+              ) : (
+                <ChevronDown className='w-5 h-5 text-muted-foreground' />
+              )}
+            </button>
 
-          <AnimatePresence>
-            {expandedSections.has('technology') && (
-              <motion.div
-                variants={sectionVariants}
-                initial='hidden'
-                animate='visible'
-                exit='exit'
-                className='overflow-hidden'
-              >
-                <div className='px-6 pb-6 border-t bg-muted/20'>
-                  <div className='pt-6 grid md:grid-cols-2 gap-6'>
-                    {/* Technology categories */}
-                    <div className='space-y-4'>
-                      <h3 className='font-semibold text-sm uppercase tracking-wide text-muted-foreground'>
-                        Technology Stack
-                      </h3>
-                      <div className='grid gap-3'>
-                        {job.techUsed.map((tech, index) => (
-                          <motion.div
-                            key={`${tech}-${job.id}`}
-                            className='flex items-center justify-between p-3 bg-background rounded-lg border'
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: index * 0.05 }}
-                          >
-                            <div className='flex items-center gap-3'>
-                              <motion.div
-                                initial={{ opacity: 0, scale: 0.8 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                transition={{ delay: index * 0.1 }}
-                              >
-                                <TechBadge tech={tech} />
-                              </motion.div>
+            <AnimatePresence>
+              {expandedSections.has('overview') && (
+                <motion.div
+                  variants={sectionVariants}
+                  initial='hidden'
+                  animate='visible'
+                  exit='exit'
+                  className='overflow-hidden'
+                >
+                  <div className='px-6 pb-6 border-t bg-muted/20'>
+                    <div className='grid md:grid-cols-3 gap-6 pt-6'>
+                      {/* Key metrics */}
+                      <div className='space-y-4'>
+                        <h3 className='font-semibold text-sm uppercase tracking-wide text-muted-foreground'>
+                          Impact Metrics
+                        </h3>
+                        <div className='space-y-3'>
+                          <div className='flex items-center justify-between p-3 bg-background rounded-lg border'>
+                            <div className='flex items-center gap-2'>
+                              <Award className='w-4 h-4 text-primary' />
+                              <span className='text-sm'>Accomplishments</span>
                             </div>
-                            <div className='text-xs text-muted-foreground'>{getTechCategory(tech).name}</div>
-                          </motion.div>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Technical insights */}
-                    <div className='space-y-4'>
-                      <h3 className='font-semibold text-sm uppercase tracking-wide text-muted-foreground'>
-                        Technical Insights
-                      </h3>
-                      <div className='space-y-3'>
-                        <div className='p-4 bg-background rounded-lg border'>
-                          <div className='flex items-center gap-2 mb-2'>
-                            <Zap className='w-4 h-4 text-primary' />
-                            <span className='font-medium text-sm'>Tech Focus</span>
+                            <span className='font-bold'>{job.accomplishments.length}</span>
                           </div>
-                          <p className='text-sm text-muted-foreground'>{techFocus.description}</p>
+                          <div className='flex items-center justify-between p-3 bg-background rounded-lg border'>
+                            <div className='flex items-center gap-2'>
+                              <Code2 className='w-4 h-4 text-primary' />
+                              <span className='text-sm'>Technologies</span>
+                            </div>
+                            <span className='font-bold'>{job.techUsed.length}</span>
+                          </div>
+                          <div className='flex items-center justify-between p-3 bg-background rounded-lg border'>
+                            <div className='flex items-center gap-2'>
+                              <TrendingUp className='w-4 h-4 text-primary' />
+                              <span className='text-sm'>Impact Score</span>
+                            </div>
+                            <span className='font-bold'>{accomplishmentStats.impactPercentage}%</span>
+                          </div>
                         </div>
-                        <div className='p-4 bg-background rounded-lg border'>
-                          <div className='flex items-center gap-2 mb-2'>
-                            <BarChart3 className='w-4 h-4 text-primary' />
-                            <span className='font-medium text-sm'>Stack Complexity</span>
-                          </div>
-                          <div className='w-full bg-muted rounded-full h-2 mb-2'>
+                      </div>
+
+                      {/* Technology breakdown */}
+                      <div className='space-y-4'>
+                        <h3 className='font-semibold text-sm uppercase tracking-wide text-muted-foreground'>
+                          Tech Stack
+                        </h3>
+                        <div className='flex flex-wrap gap-2'>
+                          {job.techUsed.map((tech, index) => (
                             <motion.div
-                              className='bg-primary rounded-full h-2'
-                              initial={{ width: 0 }}
-                              animate={{ width: `${stackComplexity.score}%` }}
-                              transition={{ delay: 0.5, duration: 1 }}
-                            />
-                          </div>
-                          <p className='text-xs text-muted-foreground'>
-                            {stackComplexity.level} - {stackComplexity.description} ({job.techUsed.length} technologies)
-                          </p>
+                              key={`${tech}-${job.id}`}
+                              initial={{ opacity: 0, scale: 0.8 }}
+                              animate={{ opacity: 1, scale: 1 }}
+                              transition={{ delay: index * 0.05 }}
+                            >
+                              <TechBadge tech={tech} />
+                            </motion.div>
+                          ))}
                         </div>
-                        <div className='p-4 bg-background rounded-lg border'>
-                          <div className='flex items-center gap-2 mb-3'>
-                            <GitBranch className='w-4 h-4 text-primary' />
-                            <span className='font-medium text-sm'>Frontend/Backend Split</span>
+                      </div>
+
+                      {/* Role context */}
+                      <div className='space-y-4'>
+                        <h3 className='font-semibold text-sm uppercase tracking-wide text-muted-foreground'>
+                          Career Context
+                        </h3>
+                        <div className='space-y-2 text-sm'>
+                          <div className='flex items-start gap-2'>
+                            <div className='w-1 h-1 bg-primary rounded-full mt-2 flex-shrink-0' />
+                            <span>{roleContext.description}</span>
                           </div>
-                          <div className='space-y-3'>
-                            <div className='flex items-center justify-between text-xs mb-2'>
-                              <span className='text-primary font-medium'>Frontend {job.stackFocus.frontend}%</span>
-                              <span className='text-accent font-medium'>Backend {job.stackFocus.backend}%</span>
+                          <div className='flex items-start gap-2'>
+                            <div className='w-1 h-1 bg-primary rounded-full mt-2 flex-shrink-0' />
+                            <span>Top focus: {accomplishmentStats.topCategories[0]?.category || 'Development'}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
+
+          {/* Detailed Accomplishments Section */}
+          <motion.div className='bg-card rounded-lg border shadow-sm overflow-hidden' variants={itemVariants}>
+            <button
+              onClick={() => toggleSection('accomplishments')}
+              className='w-full p-6 flex items-center justify-between hover:bg-muted/50 transition-colors'
+            >
+              <div className='flex items-center gap-3'>
+                <div className='p-2 bg-primary/10 rounded-lg'>
+                  <Target className='w-5 h-5 text-primary' />
+                </div>
+                <div className='text-left'>
+                  <h2 className='text-xl font-semibold'>Key Accomplishments</h2>
+                  <p className='text-sm text-muted-foreground'>Detailed breakdown of impact and achievements</p>
+                </div>
+              </div>
+              {expandedSections.has('accomplishments') ? (
+                <ChevronUp className='w-5 h-5 text-muted-foreground' />
+              ) : (
+                <ChevronDown className='w-5 h-5 text-muted-foreground' />
+              )}
+            </button>
+
+            <AnimatePresence>
+              {expandedSections.has('accomplishments') && (
+                <motion.div
+                  variants={sectionVariants}
+                  initial='hidden'
+                  animate='visible'
+                  exit='exit'
+                  className='overflow-hidden'
+                >
+                  <div className='px-6 pb-6 border-t bg-muted/20'>
+                    <div className='pt-6 space-y-4'>
+                      {categorizedAccomplishments.map((accomplishment, index) => (
+                        <motion.div
+                          key={`${accomplishment.id}-${job.id}`}
+                          className='group p-4 bg-background rounded-lg border hover:border-primary/30 transition-colors'
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{
+                            delay: index * 0.03,
+                            type: 'spring',
+                            stiffness: 200,
+                            damping: 20,
+                          }}
+                        >
+                          <div className='flex items-start gap-4'>
+                            <div className='p-2 rounded-lg bg-primary/10'>
+                              <accomplishment.category.icon className='w-4 h-4 text-primary' />
                             </div>
-                            <div className='w-full bg-muted rounded-full h-3 overflow-hidden relative'>
+                            <div className='flex-1'>
+                              <p className='text-sm leading-relaxed'>{accomplishment.text}</p>
+                              <div className='flex items-center gap-3 mt-2'>
+                                <span className='text-xs px-2 py-1 rounded-full bg-accent/10 text-accent'>
+                                  {accomplishment.category.name}
+                                </span>
+                                <span
+                                  className={`text-xs px-2 py-1 rounded-full ${
+                                    accomplishment.impact === 'high'
+                                      ? 'bg-green-500/10 text-green-600'
+                                      : accomplishment.impact === 'medium'
+                                      ? 'bg-yellow-500/10 text-yellow-600'
+                                      : 'bg-muted text-muted-foreground'
+                                  }`}
+                                >
+                                  {accomplishment.impact} impact
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
+
+          {/* Technology Deep Dive Section */}
+          <motion.div className='bg-card rounded-lg border shadow-sm overflow-hidden' variants={itemVariants}>
+            <button
+              onClick={() => toggleSection('technology')}
+              className='w-full p-6 flex items-center justify-between hover:bg-muted/50 transition-colors'
+            >
+              <div className='flex items-center gap-3'>
+                <div className='p-2 bg-primary/10 rounded-lg'>
+                  <Code2 className='w-5 h-5 text-primary' />
+                </div>
+                <div className='text-left'>
+                  <h2 className='text-xl font-semibold'>Technology Deep Dive</h2>
+                  <p className='text-sm text-muted-foreground'>Technical stack and implementation details</p>
+                </div>
+              </div>
+              {expandedSections.has('technology') ? (
+                <ChevronUp className='w-5 h-5 text-muted-foreground' />
+              ) : (
+                <ChevronDown className='w-5 h-5 text-muted-foreground' />
+              )}
+            </button>
+
+            <AnimatePresence>
+              {expandedSections.has('technology') && (
+                <motion.div
+                  variants={sectionVariants}
+                  initial='hidden'
+                  animate='visible'
+                  exit='exit'
+                  className='overflow-hidden'
+                >
+                  <div className='px-6 pb-6 border-t bg-muted/20'>
+                    <div className='pt-6 grid md:grid-cols-2 gap-6'>
+                      {/* Technology categories */}
+                      <div className='space-y-4'>
+                        <h3 className='font-semibold text-sm uppercase tracking-wide text-muted-foreground'>
+                          Technology Stack
+                        </h3>
+                        <div className='grid gap-3'>
+                          {job.techUsed.map((tech, index) => (
+                            <motion.div
+                              key={`${tech}-${job.id}`}
+                              className='flex items-center justify-between p-3 bg-background rounded-lg border'
+                              initial={{ opacity: 0, y: 10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ delay: index * 0.05 }}
+                            >
+                              <div className='flex items-center gap-3'>
+                                <motion.div
+                                  initial={{ opacity: 0, scale: 0.8 }}
+                                  animate={{ opacity: 1, scale: 1 }}
+                                  transition={{ delay: index * 0.1 }}
+                                >
+                                  <TechBadge tech={tech} />
+                                </motion.div>
+                              </div>
+                              <div className='text-xs text-muted-foreground'>{getTechCategory(tech).name}</div>
+                            </motion.div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Technical insights */}
+                      <div className='space-y-4'>
+                        <h3 className='font-semibold text-sm uppercase tracking-wide text-muted-foreground'>
+                          Technical Insights
+                        </h3>
+                        <div className='space-y-3'>
+                          <div className='p-4 bg-background rounded-lg border'>
+                            <div className='flex items-center gap-2 mb-2'>
+                              <Zap className='w-4 h-4 text-primary' />
+                              <span className='font-medium text-sm'>Tech Focus</span>
+                            </div>
+                            <p className='text-sm text-muted-foreground'>{techFocus.description}</p>
+                          </div>
+                          <div className='p-4 bg-background rounded-lg border'>
+                            <div className='flex items-center gap-2 mb-2'>
+                              <BarChart3 className='w-4 h-4 text-primary' />
+                              <span className='font-medium text-sm'>Stack Complexity</span>
+                            </div>
+                            <div className='w-full bg-muted rounded-full h-2 mb-2'>
                               <motion.div
-                                className='bg-primary h-full absolute left-0 top-0'
+                                className='bg-primary rounded-full h-2'
                                 initial={{ width: 0 }}
-                                animate={{ width: `${job.stackFocus.frontend}%` }}
-                                transition={{ delay: 0.5, duration: 1, ease: 'easeInOut' }}
+                                animate={{ width: `${stackComplexity.score}%` }}
+                                transition={{ delay: 0.5, duration: 1 }}
                               />
-                              <motion.div
-                                className='bg-accent h-full absolute right-0 top-0'
-                                initial={{ width: 0 }}
-                                animate={{ width: `${job.stackFocus.backend}%` }}
-                                transition={{ delay: 0.5, duration: 1, ease: 'easeInOut' }}
-                              />
+                            </div>
+                            <p className='text-xs text-muted-foreground'>
+                              {stackComplexity.level} - {stackComplexity.description} ({job.techUsed.length}{' '}
+                              technologies)
+                            </p>
+                          </div>
+                          <div className='p-4 bg-background rounded-lg border'>
+                            <div className='flex items-center gap-2 mb-3'>
+                              <GitBranch className='w-4 h-4 text-primary' />
+                              <span className='font-medium text-sm'>Frontend/Backend Split</span>
+                            </div>
+                            <div className='space-y-3'>
+                              <div className='flex items-center justify-between text-xs mb-2'>
+                                <span className='text-primary font-medium'>Frontend {job.stackFocus.frontend}%</span>
+                                <span className='text-accent font-medium'>Backend {job.stackFocus.backend}%</span>
+                              </div>
+                              <div className='w-full bg-muted rounded-full h-3 overflow-hidden relative'>
+                                <motion.div
+                                  className='bg-primary h-full absolute left-0 top-0'
+                                  initial={{ width: 0 }}
+                                  animate={{ width: `${job.stackFocus.frontend}%` }}
+                                  transition={{ delay: 0.5, duration: 1, ease: 'easeInOut' }}
+                                />
+                                <motion.div
+                                  className='bg-accent h-full absolute right-0 top-0'
+                                  initial={{ width: 0 }}
+                                  animate={{ width: `${job.stackFocus.backend}%` }}
+                                  transition={{ delay: 0.5, duration: 1, ease: 'easeInOut' }}
+                                />
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </motion.div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
+        </div>
       </div>
     </motion.div>
   )

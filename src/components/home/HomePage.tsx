@@ -134,7 +134,7 @@ const HomePage = () => {
             </div>
             <div className='flex gap-3'>
               <Button asChild variant='outline' size='sm'>
-                <a href='mailto:jonathanqpe@gmail.com'>
+                <a href='mailto:jonathanqpe@gmail.com' target='_blank' rel='noopener noreferrer'>
                   <Mail className='w-4 h-4 mr-2' />
                   Contact
                 </a>
