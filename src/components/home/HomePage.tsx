@@ -11,7 +11,6 @@ import {
   Mail,
   ExternalLink,
   Database,
-  Activity,
   Layers,
 } from 'lucide-react'
 
@@ -21,6 +20,9 @@ import { PROJECTS } from '@/data/projects'
 import { SKILLS } from '@/data/skills'
 import profileImage from '@/assets/profileIcon.jpg'
 import { GithubLogoIcon, LinkedinLogoIcon } from '@phosphor-icons/react'
+import TechBadge from '@/components/TechBadge'
+
+const MAX_TECH_DISPLAY = 6
 
 const HomePage = () => {
   const containerVariants = {
@@ -63,25 +65,21 @@ const HomePage = () => {
       label: 'Years Experience',
       value: `${totalYearsExperience}+`,
       icon: TrendingUp,
-      color: 'text-green-500',
     },
     {
       label: 'Companies',
       value: RESUME.length.toString(),
       icon: Users,
-      color: 'text-blue-500',
     },
     {
       label: 'Projects',
       value: totalProjects.toString(),
       icon: BarChart3,
-      color: 'text-purple-500',
     },
     {
       label: 'Skills Mastered',
       value: topSkills.length.toString(),
       icon: Star,
-      color: 'text-yellow-500',
     },
   ]
 
@@ -91,24 +89,18 @@ const HomePage = () => {
       description: 'Explore my career journey across leading tech companies',
       icon: Calendar,
       path: '/resume',
-      color: 'from-blue-500/20 to-cyan-500/20',
-      iconColor: 'text-blue-500',
     },
     {
       title: 'Project Portfolio',
       description: "Discover applications and solutions I've built",
       icon: Layers,
       path: '/projects',
-      color: 'from-purple-500/20 to-pink-500/20',
-      iconColor: 'text-purple-500',
     },
     {
       title: 'About & Skills',
       description: 'Learn about my background and technical expertise',
       icon: Database,
       path: '/about',
-      color: 'from-green-500/20 to-emerald-500/20',
-      iconColor: 'text-green-500',
     },
   ]
 
@@ -125,9 +117,6 @@ const HomePage = () => {
                   alt="Jonathan's profile"
                   className='w-20 h-20 object-cover rounded-xl shadow-lg'
                 />
-                <div className='absolute -bottom-2 -right-2 w-6 h-6 bg-green-500 rounded-full border-2 border-background flex items-center justify-center'>
-                  <Activity className='w-3 h-3 text-white' />
-                </div>
               </div>
               <div>
                 <h1 className='text-3xl font-bold'>Jonathan Pe</h1>
@@ -176,7 +165,7 @@ const HomePage = () => {
                   <p className='text-2xl font-bold'>{metric.value}</p>
                 </div>
                 <div className={`p-3 rounded-lg bg-muted/50`}>
-                  <metric.icon className={`w-6 h-6 ${metric.color}`} />
+                  <metric.icon className={`w-6 h-6 text-primary`} />
                 </div>
               </div>
             </motion.div>
@@ -223,9 +212,7 @@ const HomePage = () => {
               <h3 className='font-medium mb-2'>Technologies</h3>
               <div className='flex flex-wrap gap-2'>
                 {currentJob.techUsed.map((tech) => (
-                  <span key={tech} className='px-2 py-1 bg-primary/10 text-primary text-xs rounded-md'>
-                    {tech}
-                  </span>
+                  <TechBadge key={tech} tech={tech} />
                 ))}
               </div>
             </div>
@@ -243,13 +230,11 @@ const HomePage = () => {
               className='flex-1 h-[200px]'
             >
               <Link to={section.path} className='block h-full'>
-                <div
-                  className={`bg-gradient-to-br ${section.color} rounded-xl p-6 shadow-lg border h-full flex flex-col justify-between`}
-                >
+                <div className={`bg-card rounded-xl p-6 shadow-lg border h-full flex flex-col justify-between`}>
                   <div>
                     <div className='flex items-center gap-4 mb-4'>
-                      <div className='p-3 bg-background/80 rounded-lg'>
-                        <section.icon className={`w-6 h-6 ${section.iconColor}`} />
+                      <div className='p-3 bg-muted rounded-lg'>
+                        <section.icon className='w-6 h-6 text-primary' />
                       </div>
                       <div>
                         <h3 className='font-semibold text-lg'>{section.title}</h3>
@@ -347,14 +332,12 @@ const HomePage = () => {
                 </div>
                 <p className='text-sm text-muted-foreground mb-3'>{project.description}</p>
                 <div className='flex flex-wrap gap-1'>
-                  {project.techUsed.slice(0, 3).map((tech) => (
-                    <span key={tech} className='px-2 py-1 bg-primary/10 text-primary text-xs rounded-md'>
-                      {tech}
-                    </span>
+                  {project.techUsed.slice(0, MAX_TECH_DISPLAY).map((tech) => (
+                    <TechBadge key={tech} tech={tech} />
                   ))}
-                  {project.techUsed.length > 3 && (
+                  {project.techUsed.length > MAX_TECH_DISPLAY && (
                     <span className='px-2 py-1 bg-muted text-muted-foreground text-xs rounded-md'>
-                      +{project.techUsed.length - 3} more
+                      +{project.techUsed.length - MAX_TECH_DISPLAY} more
                     </span>
                   )}
                 </div>
