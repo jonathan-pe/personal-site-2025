@@ -223,7 +223,7 @@ function RouteComponent() {
               {(previousJob || nextJob) && (
                 <div className='flex items-center gap-4 pt-2'>
                   <GitBranch className='w-4 h-4 text-muted-foreground' />
-                  <div className='flex items-center gap-2 text-sm text-muted-foreground'>
+                  <div className='flex items-center gap-2 text-sm text-accent'>
                     {previousJob && (
                       <Link
                         to='/resume/$company'
@@ -233,7 +233,7 @@ function RouteComponent() {
                         ← {previousJob.companyName}
                       </Link>
                     )}
-                    {previousJob && nextJob && <span>•</span>}
+                    {previousJob && nextJob && <span className='text-muted-foreground'>•</span>}
                     {nextJob && (
                       <Link
                         to='/resume/$company'
