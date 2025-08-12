@@ -1,5 +1,4 @@
 import { createFileRoute, notFound } from '@tanstack/react-router'
-import { useEffect } from 'react'
 import { motion } from 'framer-motion'
 import {
   ExternalLink,
@@ -20,7 +19,6 @@ import {
 } from 'lucide-react'
 
 import { PROJECTS } from '@/data/projects'
-import { useBreadcrumbs } from '@/hooks/useBreadcrumbs'
 import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import TechBadge from '@/components/TechBadge'
@@ -54,12 +52,6 @@ const complexityConfig = {
 
 function RouteComponent() {
   const { project } = Route.useLoaderData()
-  const { setBreadcrumbLabel } = useBreadcrumbs()
-
-  // Set breadcrumb label when component mounts or project changes
-  useEffect(() => {
-    setBreadcrumbLabel(project.title)
-  }, [project.title, setBreadcrumbLabel])
 
   const containerVariants = {
     hidden: { opacity: 0 },

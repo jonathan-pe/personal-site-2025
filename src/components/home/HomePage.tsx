@@ -1,24 +1,11 @@
 import { motion } from 'framer-motion'
 import { Link } from '@tanstack/react-router'
-import {
-  BarChart3,
-  TrendingUp,
-  Users,
-  Calendar,
-  MapPin,
-  Clock,
-  Star,
-  Mail,
-  ExternalLink,
-  Database,
-  Layers,
-} from 'lucide-react'
+import { BarChart3, TrendingUp, Users, Calendar, MapPin, Clock, Star, Mail, ExternalLink, Layers } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { ScrollableContainer } from '@/components/ui/scrollable-container'
 import { RESUME } from '@/data/resume'
 import { PROJECTS } from '@/data/projects'
-import { SKILLS } from '@/data/skills'
 import profileImage from '@/assets/profileIcon.jpg'
 import { GithubLogoIcon, LinkedinLogoIcon } from '@phosphor-icons/react'
 import TechBadge from '@/components/TechBadge'
@@ -56,7 +43,7 @@ const HomePage = () => {
     return Math.floor(diffInYears)
   })()
   const totalProjects = PROJECTS.length
-  const topSkills = SKILLS.filter((skill) => skill.level >= 4)
+  const totalTechnologies = Array.from(new Set(RESUME.flatMap((job) => job.techUsed))).length
 
   // Mock metrics for dashboard feel
   const metrics = [
@@ -76,8 +63,8 @@ const HomePage = () => {
       icon: BarChart3,
     },
     {
-      label: 'Skills Mastered',
-      value: topSkills.length.toString(),
+      label: 'Technologies',
+      value: totalTechnologies.toString(),
       icon: Star,
     },
   ]
@@ -94,12 +81,6 @@ const HomePage = () => {
       description: "Discover applications and solutions I've built",
       icon: Layers,
       path: '/projects',
-    },
-    {
-      title: 'About & Skills',
-      description: 'Learn about my background and technical expertise',
-      icon: Database,
-      path: '/about',
     },
   ]
 
@@ -258,50 +239,6 @@ const HomePage = () => {
             </motion.div>
           ))}
         </div>
-
-        {/* Skills Distribution */}
-        <motion.div className='bg-card rounded-xl p-6 shadow-lg border mb-6' variants={cardVariants}>
-          <div className='flex items-center justify-between mb-6'>
-            <h2 className='text-xl font-semibold'>Skills Distribution</h2>
-            <Button asChild variant='outline' size='sm'>
-              <Link to='/about'>View All</Link>
-            </Button>
-          </div>
-          <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4'>
-            {topSkills.map((skill) => (
-              <div key={skill.id} className='text-center'>
-                <div className='relative w-16 h-16 mx-auto mb-2'>
-                  <svg className='w-16 h-16 transform -rotate-90'>
-                    <circle
-                      cx='32'
-                      cy='32'
-                      r='28'
-                      stroke='currentColor'
-                      strokeWidth='4'
-                      fill='transparent'
-                      className='text-muted'
-                    />
-                    <circle
-                      cx='32'
-                      cy='32'
-                      r='28'
-                      stroke='currentColor'
-                      strokeWidth='4'
-                      fill='transparent'
-                      strokeDasharray={`${(skill.level / 5) * 175.929} 175.929`}
-                      className='text-primary'
-                    />
-                  </svg>
-                  <div className='absolute inset-0 flex items-center justify-center'>
-                    <span className='text-xs font-bold'>{skill.level}/5</span>
-                  </div>
-                </div>
-                <p className='text-xs font-medium'>{skill.name}</p>
-                <p className='text-xs text-muted-foreground'>{skill.category}</p>
-              </div>
-            ))}
-          </div>
-        </motion.div>
 
         {/* Recent Projects */}
         <motion.div className='bg-card rounded-xl p-6 shadow-lg border' variants={cardVariants}>

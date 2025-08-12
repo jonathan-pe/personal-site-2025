@@ -1,5 +1,5 @@
 import { createFileRoute, notFound, Link } from '@tanstack/react-router'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   Calendar,
@@ -18,7 +18,6 @@ import {
 } from 'lucide-react'
 
 import { RESUME } from '@/data/resume'
-import { useBreadcrumbs } from '@/hooks/useBreadcrumbs'
 import { Button } from '@/components/ui/button'
 import TechBadge from '@/components/TechBadge'
 import { getTechFocus, getTechCategory, calculateStackComplexity } from '@/data/techCategories'
@@ -38,13 +37,7 @@ export const Route = createFileRoute('/resume/$company')({
 
 function RouteComponent() {
   const { job } = Route.useLoaderData()
-  const { setBreadcrumbLabel } = useBreadcrumbs()
   const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set(['overview']))
-
-  // Set breadcrumb label when component mounts or job changes
-  useEffect(() => {
-    setBreadcrumbLabel(job.companyName)
-  }, [job.companyName, setBreadcrumbLabel])
 
   // Calculate career context
   const currentJobIndex = RESUME.findIndex((j) => j.id === job.id)

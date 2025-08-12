@@ -1,10 +1,9 @@
 import { createRootRoute, Outlet } from '@tanstack/react-router'
 import { ThemeProvider } from '@/components/theme/ThemeProvider'
-import { BreadcrumbProvider } from '@/contexts/BreadcrumbContext'
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar'
 import { AppSidebar } from '@/components/sidebar'
+import { MobileHeader } from '@/components/MobileHeader'
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
-import NavHeader from '@/components/NavHeader'
 
 export const Route = createRootRoute({
   component: RootComponent,
@@ -13,18 +12,16 @@ export const Route = createRootRoute({
 function RootComponent() {
   return (
     <ThemeProvider defaultTheme='system' storageKey='personal-site-theme'>
-      <BreadcrumbProvider>
-        <SidebarProvider>
-          <AppSidebar />
-          <SidebarInset>
-            <div className='flex flex-col min-h-screen'>
-              <NavHeader />
-              <Outlet />
-            </div>
-          </SidebarInset>
-          <TanStackRouterDevtools position='bottom-right' />
-        </SidebarProvider>
-      </BreadcrumbProvider>
+      <SidebarProvider>
+        <AppSidebar />
+        <SidebarInset>
+          <div className='flex flex-col min-h-screen'>
+            <MobileHeader />
+            <Outlet />
+          </div>
+        </SidebarInset>
+        <TanStackRouterDevtools position='bottom-right' />
+      </SidebarProvider>
     </ThemeProvider>
   )
 }

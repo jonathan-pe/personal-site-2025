@@ -7,7 +7,6 @@ import {
   ExternalLink,
   TrendingUp,
   Users,
-  ArrowRight,
   Github,
   Target,
   Lightbulb,
@@ -271,12 +270,6 @@ function ProjectsOverviewPage() {
               <h2 className='text-xl font-semibold mb-2'>Technology Expertise</h2>
               <p className='text-muted-foreground'>Technologies I've worked with across different project types</p>
             </div>
-            <Button asChild variant='outline' size='sm'>
-              <Link to='/about'>
-                <ArrowRight className='w-4 h-4 mr-2' />
-                View All Skills
-              </Link>
-            </Button>
           </div>
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
             {topCategories.map((categoryGroup) => (
@@ -462,12 +455,6 @@ function ProjectsOverviewPage() {
                   <Users className='w-4 h-4 mr-2' />
                   Let's Collaborate
                 </a>
-              </Button>
-              <Button asChild variant='outline'>
-                <Link to='/about'>
-                  <ArrowRight className='w-4 h-4 mr-2' />
-                  Learn More About Me
-                </Link>
               </Button>
             </div>
           </div>

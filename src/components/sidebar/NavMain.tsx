@@ -1,6 +1,6 @@
 'use client'
 
-import { ChevronRight, ScrollTextIcon, UserIcon } from 'lucide-react'
+import { ChevronRight, HomeIcon, ScrollTextIcon } from 'lucide-react'
 
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 import {
@@ -20,10 +20,9 @@ import { PROJECTS } from '@/data/projects'
 
 const items = [
   {
-    title: 'About Me',
-    url: '/about',
-    icon: UserIcon,
-    isActive: true,
+    title: 'Home',
+    url: '/',
+    icon: HomeIcon,
   },
   {
     title: 'Resume',
@@ -53,7 +52,7 @@ export function NavMain() {
       <SidebarMenu>
         {items.map((item) =>
           item.items?.length ? (
-            <Collapsible key={item.title} asChild defaultOpen={item.isActive} className='group/collapsible'>
+            <Collapsible key={item.title} asChild className='group/collapsible'>
               <SidebarMenuItem>
                 <div className='relative group/item'>
                   {item.url ? (

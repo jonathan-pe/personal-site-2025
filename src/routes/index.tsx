@@ -6,7 +6,6 @@ export const Route = createFileRoute('/')({
 })
 
 function Index() {
-  console.log('Index component rendering')
   return (
     <div className='flex flex-col min-h-screen px-4'>
       <HomePage />
