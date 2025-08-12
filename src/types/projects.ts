@@ -4,6 +4,11 @@ export interface ProjectImage {
   type: 'hero' | 'screenshot' | 'mockup' | 'diagram'
 }
 
+export interface GitHubRepository {
+  repoName: string
+  repoUrl: string
+}
+
 export interface Project {
   id: string
   title: string
@@ -14,7 +19,7 @@ export interface Project {
   type: 'personal' | 'client' | 'open-source' | 'freelance' | 'work'
   category: 'web-app' | 'mobile-app' | 'portfolio' | 'e-commerce' | 'tool' | 'game'
   featured: boolean
-  githubUrls?: string[]
+  githubUrls?: GitHubRepository[]
   demoUrl?: string
   images?: ProjectImage[]
   keyFeatures: string[]

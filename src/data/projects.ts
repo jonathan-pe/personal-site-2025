@@ -11,7 +11,12 @@ export const PROJECTS: Array<Project> = [
     type: 'personal',
     category: 'portfolio',
     featured: true,
-    githubUrls: ['https://github.com/jonathan-pe/personal-site-2025'],
+    githubUrls: [
+      {
+        repoName: 'Personal Site 2025',
+        repoUrl: 'https://github.com/jonathan-pe/personal-site-2025',
+      },
+    ],
     demoUrl: 'https://jonathanpe.com',
     images: [],
     keyFeatures: [
@@ -62,7 +67,16 @@ export const PROJECTS: Array<Project> = [
     type: 'personal',
     category: 'web-app',
     featured: false,
-    githubUrls: ['https://github.com/jonathan-pe/kinshipr', 'https://github.com/jonathan-pe/kinshipr-mobile'],
+    githubUrls: [
+      {
+        repoName: 'kinshipr Web App',
+        repoUrl: 'https://github.com/jonathan-pe/kinshipr',
+      },
+      {
+        repoName: 'kinshipr Mobile App',
+        repoUrl: 'https://github.com/jonathan-pe/kinshipr-mobile',
+      },
+    ],
     keyFeatures: [
       'User authentication and profiles',
       'Friend network management',
@@ -114,7 +128,16 @@ export const PROJECTS: Array<Project> = [
     type: 'personal',
     category: 'web-app',
     featured: true,
-    githubUrls: ['https://github.com/jonathan-pe/pulse-vite', 'https://github.com/jonathan-pe/pulse-be'],
+    githubUrls: [
+      {
+        repoName: 'Pulse Frontend',
+        repoUrl: 'https://github.com/jonathan-pe/pulse-vite',
+      },
+      {
+        repoName: 'Pulse Backend',
+        repoUrl: 'https://github.com/jonathan-pe/pulse-be',
+      },
+    ],
     keyFeatures: [
       'Integrated real-time sportsbook odds API',
       'Developed secure user authentication system',
@@ -151,7 +174,12 @@ export const PROJECTS: Array<Project> = [
     type: 'personal',
     category: 'web-app',
     featured: false,
-    githubUrls: ['https://github.com/jonathan-pe/5oclock'],
+    githubUrls: [
+      {
+        repoName: "It's 5 O'Clock Somewhere",
+        repoUrl: 'https://github.com/jonathan-pe/5oclock',
+      },
+    ],
     keyFeatures: [
       'Real-time timezone calculations',
       'Location-based beverage suggestions',
