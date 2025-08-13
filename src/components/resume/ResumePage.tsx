@@ -77,11 +77,33 @@ const ResumePage = () => {
 
   // Calculate dashboard metrics
   const totalExperience = (() => {
-    const firstJob = RESUME[RESUME.length - 1]
-    const startDate = new Date(firstJob.startDate)
+    const firstJob = RESUME[RESUME.length - 1] // Assuming RESUME is ordered from newest to oldest
+
+    // Parse the date string "Jul 2017" format
+    const parseJobDate = (dateString: string): Date => {
+      // Handle "Present" case
+      if (dateString.toLowerCase() === 'present') {
+        return new Date()
+      }
+
+      // Parse "Month Year" format like "Jul 2017"
+      const [month, year] = dateString.split(' ')
+      const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+      const monthIndex = monthNames.findIndex((m) => month.includes(m))
+
+      if (monthIndex === -1 || !year) {
+        console.warn(`Could not parse date: ${dateString}`)
+        return new Date() // Fallback to current date
+      }
+
+      return new Date(parseInt(year), monthIndex)
+    }
+
+    const startDate = parseJobDate(firstJob.startDate)
     const currentDate = new Date()
-    const diffInYears = Math.floor((currentDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24 * 365.25))
-    return diffInYears
+    const diffInMilliseconds = currentDate.getTime() - startDate.getTime()
+    const diffInYears = diffInMilliseconds / (1000 * 60 * 60 * 24 * 365.25)
+    return Math.floor(diffInYears)
   })()
 
   const allTechnologies = Array.from(new Set(RESUME.flatMap((job) => job.techUsed)))
