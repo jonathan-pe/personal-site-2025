@@ -60,8 +60,38 @@ function RouteComponent() {
 
   // Calculate role duration
   const calculateDuration = (start: string, end: string) => {
-    const startDate = new Date(start)
-    const endDate = end === 'Present' ? new Date() : new Date(end)
+    // Helper function to parse date strings like "July 2024" or "Feb 2023"
+    const parseJobDate = (dateStr: string): Date => {
+      if (dateStr === 'Present') {
+        return new Date()
+      }
+
+      // Try direct parsing first
+      const directParse = new Date(dateStr)
+      if (!isNaN(directParse.getTime())) {
+        return directParse
+      }
+
+      // Fallback: parse month/year format
+      const parts = dateStr.trim().split(' ')
+      if (parts.length === 2) {
+        const [monthStr, yearStr] = parts
+        const year = parseInt(yearStr, 10)
+        const month = new Date(`${monthStr} 1, ${year}`).getMonth()
+
+        if (!isNaN(year) && !isNaN(month)) {
+          return new Date(year, month, 1)
+        }
+      }
+
+      // Last resort: return current date to avoid NaN
+      console.warn(`Could not parse date: ${dateStr}`)
+      return new Date()
+    }
+
+    const startDate = parseJobDate(start)
+    const endDate = parseJobDate(end)
+
     const months = Math.round((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24 * 30.44))
     const years = Math.floor(months / 12)
     const remainingMonths = months % 12
