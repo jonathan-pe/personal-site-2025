@@ -45,7 +45,13 @@ const items = [
 ]
 
 export function NavMain() {
-  const { state } = useSidebar()
+  const { state, isMobile, setOpenMobile } = useSidebar()
+
+  const handleLinkClick = () => {
+    if (isMobile) {
+      setOpenMobile(false)
+    }
+  }
 
   return (
     <SidebarGroup>
@@ -56,7 +62,7 @@ export function NavMain() {
               <SidebarMenuItem>
                 <div className='relative group/item'>
                   {item.url ? (
-                    <Link to={item.url}>
+                    <Link to={item.url} onClick={handleLinkClick}>
                       <SidebarMenuButton tooltip={item.title} className='w-full justify-start pr-8 cursor-pointer'>
                         {item.icon && <item.icon />}
                         <span>{item.title}</span>
@@ -81,7 +87,7 @@ export function NavMain() {
                     {item.items?.map((subItem) => (
                       <SidebarMenuSubItem key={subItem.title}>
                         <SidebarMenuSubButton asChild>
-                          <Link to={subItem.url} className='flex items-center gap-2'>
+                          <Link to={subItem.url} className='flex items-center gap-2' onClick={handleLinkClick}>
                             <span>{subItem.title}</span>
                           </Link>
                         </SidebarMenuSubButton>
@@ -94,7 +100,7 @@ export function NavMain() {
           ) : (
             <SidebarMenuItem key={item.title}>
               <SidebarMenuButton asChild>
-                <Link to={item.url} className='flex items-center gap-2'>
+                <Link to={item.url} className='flex items-center gap-2' onClick={handleLinkClick}>
                   {item.icon && <item.icon />}
                   <span>{item.title}</span>
                 </Link>
