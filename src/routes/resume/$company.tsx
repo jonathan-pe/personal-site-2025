@@ -538,7 +538,7 @@ function RouteComponent() {
                                 <span className='text-primary font-medium'>Frontend {job.stackFocus.frontend}%</span>
                                 <span className='text-accent font-medium'>Backend {job.stackFocus.backend}%</span>
                               </div>
-                              <div className='w-full bg-muted rounded-full h-3 overflow-hidden relative'>
+                              <div className='w-full bg-muted rounded-full h-2 overflow-hidden relative'>
                                 <motion.div
                                   className='bg-primary h-full absolute left-0 top-0'
                                   initial={{ width: 0 }}
