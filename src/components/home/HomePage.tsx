@@ -3,12 +3,11 @@ import { Link } from '@tanstack/react-router'
 import { BarChart3, TrendingUp, Users, Calendar, MapPin, Clock, Star, Mail, ExternalLink, Layers } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
-import { ScrollableContainer } from '@/components/ui/scrollable-container'
 import { RESUME } from '@/data/resume'
 import { PROJECTS } from '@/data/projects'
 import profileImage from '@/assets/profileIcon.jpg'
 import { GithubLogoIcon, LinkedinLogoIcon } from '@phosphor-icons/react'
-import TechBadge from '@/components/TechBadge'
+import TechBadgeList from '@/components/TechBadgeList'
 
 const HomePage = () => {
   const containerVariants = {
@@ -36,7 +35,28 @@ const HomePage = () => {
   const currentJob = RESUME[0]
   const totalYearsExperience = (() => {
     const firstJob = RESUME[RESUME.length - 1] // Assuming RESUME is ordered from newest to oldest
-    const startDate = new Date(firstJob.startDate)
+
+    // Parse the date string "Jul 2017" format
+    const parseJobDate = (dateString: string): Date => {
+      // Handle "Present" case
+      if (dateString.toLowerCase() === 'present') {
+        return new Date()
+      }
+
+      // Parse "Month Year" format like "Jul 2017"
+      const [month, year] = dateString.split(' ')
+      const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+      const monthIndex = monthNames.findIndex((m) => month.includes(m))
+
+      if (monthIndex === -1 || !year) {
+        console.warn(`Could not parse date: ${dateString}`)
+        return new Date() // Fallback to current date
+      }
+
+      return new Date(parseInt(year), monthIndex)
+    }
+
+    const startDate = parseJobDate(firstJob.startDate)
     const currentDate = new Date()
     const diffInMilliseconds = currentDate.getTime() - startDate.getTime()
     const diffInYears = diffInMilliseconds / (1000 * 60 * 60 * 24 * 365.25)
@@ -85,23 +105,23 @@ const HomePage = () => {
   ]
 
   return (
-    <div className='min-h-screen bg-background p-6 space-y-6'>
+    <div className='min-h-screen bg-background p-4 md:p-6 space-y-6'>
       <motion.div variants={containerVariants} initial='hidden' animate='visible' className='max-w-7xl mx-auto'>
         {/* Dashboard Header */}
-        <motion.div className='bg-card rounded-xl p-6 shadow-lg border mb-6' variants={cardVariants}>
-          <div className='flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6'>
-            <div className='flex items-center gap-6'>
+        <motion.div className='bg-card rounded-xl p-4 md:p-6 shadow-lg border mb-6' variants={cardVariants}>
+          <div className='flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 md:gap-6'>
+            <div className='flex flex-col sm:flex-row items-start sm:items-center gap-4 md:gap-6 w-full lg:w-auto'>
               <div className='relative'>
                 <img
                   src={profileImage}
                   alt="Jonathan's profile"
-                  className='w-20 h-20 object-cover rounded-xl shadow-lg'
+                  className='w-16 h-16 md:w-20 md:h-20 object-cover rounded-xl shadow-lg'
                 />
               </div>
-              <div>
-                <h1 className='text-3xl font-bold'>Jonathan Pe</h1>
-                <p className='text-lg text-muted-foreground'>{currentJob.role}</p>
-                <div className='flex items-center gap-4 mt-2 text-sm text-muted-foreground'>
+              <div className='flex-1'>
+                <h1 className='text-2xl md:text-3xl font-bold'>Jonathan Pe</h1>
+                <p className='text-base md:text-lg text-muted-foreground'>{currentJob.role}</p>
+                <div className='flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 mt-2 text-sm text-muted-foreground'>
                   <div className='flex items-center gap-1'>
                     <MapPin className='w-4 h-4' />
                     <span>San Francisco Bay Area</span>
@@ -113,20 +133,20 @@ const HomePage = () => {
                 </div>
               </div>
             </div>
-            <div className='flex gap-3'>
-              <Button asChild variant='outline' size='sm'>
+            <div className='flex flex-wrap gap-2 md:gap-3 w-full lg:w-auto justify-start lg:justify-end'>
+              <Button asChild variant='outline' size='sm' className='flex-1 sm:flex-none'>
                 <a href='mailto:jonathanqpe@gmail.com' target='_blank' rel='noopener noreferrer'>
                   <Mail className='w-4 h-4 mr-2' />
                   Contact
                 </a>
               </Button>
-              <Button asChild variant='outline' size='sm'>
+              <Button asChild variant='outline' size='sm' className='flex-1 sm:flex-none'>
                 <a href='https://github.com/jonathan-pe' target='_blank' rel='noopener noreferrer'>
                   <GithubLogoIcon className='w-4 h-4 mr-2' />
                   GitHub
                 </a>
               </Button>
-              <Button asChild variant='outline' size='sm'>
+              <Button asChild variant='outline' size='sm' className='flex-1 sm:flex-none'>
                 <a href='https://linkedin.com/in/jonathanqpe' target='_blank' rel='noopener noreferrer'>
                   <LinkedinLogoIcon className='w-4 h-4 mr-2' />
                   LinkedIn
@@ -137,21 +157,21 @@ const HomePage = () => {
         </motion.div>
 
         {/* Metrics Grid */}
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6'>
+        <div className='grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-6'>
           {metrics.map((metric) => (
             <motion.div
               key={metric.label}
-              className='bg-card rounded-xl p-6 shadow-lg border'
+              className='bg-card rounded-xl p-4 md:p-6 shadow-lg border'
               variants={cardVariants}
               whileHover={{ y: -2 }}
             >
               <div className='flex items-center justify-between'>
                 <div>
-                  <p className='text-sm text-muted-foreground'>{metric.label}</p>
-                  <p className='text-2xl font-bold'>{metric.value}</p>
+                  <p className='text-xs md:text-sm text-muted-foreground'>{metric.label}</p>
+                  <p className='text-xl md:text-2xl font-bold'>{metric.value}</p>
                 </div>
-                <div className={`p-3 rounded-lg bg-muted/50`}>
-                  <metric.icon className={`w-6 h-6 text-primary`} />
+                <div className={`p-2 md:p-3 rounded-lg bg-muted/50`}>
+                  <metric.icon className={`w-5 h-5 md:w-6 md:h-6 text-primary`} />
                 </div>
               </div>
             </motion.div>
@@ -159,13 +179,13 @@ const HomePage = () => {
         </div>
 
         {/* Current Status Card */}
-        <motion.div className='bg-card rounded-xl p-6 shadow-lg border mb-6' variants={cardVariants}>
-          <div className='flex items-start justify-between mb-4'>
-            <div>
-              <h2 className='text-xl font-semibold mb-2'>Current Position</h2>
+        <motion.div className='bg-card rounded-xl p-4 md:p-6 shadow-lg border mb-6' variants={cardVariants}>
+          <div className='flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-4'>
+            <div className='flex-1'>
+              <h2 className='text-lg md:text-xl font-semibold mb-2'>Current Position</h2>
               <div className='flex items-center gap-3'>
                 <div className='p-2 bg-primary/10 rounded-lg'>
-                  <currentJob.icon.icon className='w-6 h-6 text-primary' />
+                  <currentJob.icon.icon className='w-5 h-5 md:w-6 md:h-6 text-primary' />
                 </div>
                 <div>
                   <p className='font-semibold'>{currentJob.companyName}</p>
@@ -175,14 +195,14 @@ const HomePage = () => {
                 </div>
               </div>
             </div>
-            <Button asChild variant='outline' size='sm'>
+            <Button asChild variant='outline' size='sm' className='w-full sm:w-auto'>
               <Link to='/resume/$company' params={{ company: currentJob.id }}>
                 Details
               </Link>
             </Button>
           </div>
-          <div className='flex flex-wrap md:flex-nowrap gap-4'>
-            <div className='flex flex-2/3 flex-col'>
+          <div className='flex flex-col md:flex-row gap-4'>
+            <div className='md:flex-[2]'>
               <h3 className='font-medium mb-2'>Key Accomplishments</h3>
               <ul className='space-y-1 text-sm text-muted-foreground'>
                 {currentJob.accomplishments.slice(0, 3).map((accomplishment, index) => (
@@ -193,13 +213,9 @@ const HomePage = () => {
                 ))}
               </ul>
             </div>
-            <div className='flex flex-1/3 flex-col'>
+            <div className='md:flex-1'>
               <h3 className='font-medium mb-2'>Technologies</h3>
-              <div className='flex flex-wrap gap-2'>
-                {currentJob.techUsed.map((tech) => (
-                  <TechBadge key={tech} tech={tech} />
-                ))}
-              </div>
+              <TechBadgeList techList={currentJob.techUsed} maxVisible={4} />
             </div>
           </div>
         </motion.div>
@@ -241,41 +257,39 @@ const HomePage = () => {
         </div>
 
         {/* Recent Projects */}
-        <motion.div className='bg-card rounded-xl p-6 shadow-lg border' variants={cardVariants}>
-          <div className='flex items-center justify-between mb-6'>
-            <h2 className='text-xl font-semibold'>Recent Projects</h2>
-            <Button asChild variant='outline' size='sm'>
+        <motion.div className='bg-card rounded-xl p-4 md:p-6 shadow-lg border' variants={cardVariants}>
+          <div className='flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6'>
+            <h2 className='text-lg md:text-xl font-semibold'>Recent Projects</h2>
+            <Button asChild variant='outline' size='sm' className='w-full sm:w-auto'>
               <Link to='/projects'>View All</Link>
             </Button>
           </div>
-          <div className='grid md:grid-cols-2 gap-6'>
+          <div className='grid gap-4 md:gap-6 lg:grid-cols-2'>
             {PROJECTS.slice(0, 2).map((project) => (
-              <div key={project.id} className='bg-muted/30 rounded-lg p-4 border flex flex-col'>
-                <div className='flex items-center justify-between mb-3'>
-                  <h3 className='font-semibold'>{project.title}</h3>
-                  <div className='flex gap-2'>
-                    <Button asChild variant='ghost' size='sm'>
-                      <Link to='/projects/$project' params={{ project: project.id }}>
-                        Details
-                      </Link>
-                    </Button>
-                    {project.url && (
-                      <Button asChild variant='ghost' size='sm'>
-                        <a href={project.url} target='_blank' rel='noopener noreferrer'>
-                          <ExternalLink className='w-4 h-4' />
-                        </a>
+              <div key={project.id} className='bg-muted/30 rounded-lg p-4 border flex flex-col min-w-0'>
+                <div className='flex flex-col gap-3 mb-3'>
+                  <div className='flex flex-col sm:flex-row sm:items-start justify-between gap-2'>
+                    <h3 className='font-semibold text-base break-words min-w-0 flex-1'>{project.title}</h3>
+                    <div className='flex gap-2 flex-shrink-0'>
+                      <Button asChild variant='ghost' size='sm' className='text-xs px-2 py-1'>
+                        <Link to='/projects/$project' params={{ project: project.id }}>
+                          Details
+                        </Link>
                       </Button>
-                    )}
+                      {project.url && (
+                        <Button asChild variant='ghost' size='sm' className='text-xs px-2 py-1'>
+                          <a href={project.url} target='_blank' rel='noopener noreferrer'>
+                            <ExternalLink className='w-3 h-3' />
+                          </a>
+                        </Button>
+                      )}
+                    </div>
                   </div>
                 </div>
-                <p className='text-sm text-muted-foreground mb-3 flex-grow'>{project.description}</p>
-                <ScrollableContainer className='mt-auto'>
-                  <div className='flex gap-1 pb-2 min-w-fit'>
-                    {project.techUsed.map((tech) => (
-                      <TechBadge key={tech} tech={tech} />
-                    ))}
-                  </div>
-                </ScrollableContainer>
+                <p className='text-sm text-muted-foreground mb-3 flex-grow break-words'>{project.description}</p>
+                <div className='mt-auto'>
+                  <TechBadgeList techList={project.techUsed} maxVisible={3} className='pb-2' />
+                </div>
               </div>
             ))}
           </div>

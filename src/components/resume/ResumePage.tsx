@@ -17,9 +17,8 @@ import {
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
-import { ScrollableContainer } from '@/components/ui/scrollable-container'
 import { RESUME } from '@/data/resume'
-import TechBadge from '@/components/TechBadge'
+import TechBadgeList from '@/components/TechBadgeList'
 import resumePDF from "@/data/Jonathan Pe's Resume.pdf"
 
 const ResumePage = () => {
@@ -120,19 +119,19 @@ const ResumePage = () => {
   ]
 
   return (
-    <div className='min-h-screen bg-background p-6'>
+    <div className='min-h-screen bg-background p-4 md:p-6'>
       <motion.div variants={containerVariants} initial='hidden' animate='visible' className='max-w-7xl mx-auto'>
         {/* Dashboard Header */}
         <motion.div className='mb-8' variants={timelineItemVariants}>
-          <div className='flex items-center justify-between mb-6'>
+          <div className='flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6'>
             <div>
-              <h1 className='text-3xl font-bold mb-2'>Career Analytics Dashboard</h1>
+              <h1 className='text-2xl md:text-3xl font-bold mb-2'>Career Analytics Dashboard</h1>
               <p className='text-muted-foreground'>Real-time insights into professional growth and experience</p>
             </div>
-            <div className='flex items-center gap-4'>
+            <div className='flex flex-col sm:flex-row items-start sm:items-center gap-4'>
               <Button
                 variant='outline'
-                className='flex items-center gap-2 hover:bg-primary/5'
+                className='flex items-center gap-2 hover:bg-primary/5 w-full sm:w-auto'
                 onClick={() => {
                   const link = document.createElement('a')
                   link.href = resumePDF
@@ -401,13 +400,9 @@ const ResumePage = () => {
                   </div>
 
                   {/* Tech Stack Preview */}
-                  <ScrollableContainer className='mb-3'>
-                    <div className='flex gap-1 pb-2 min-w-fit'>
-                      {job.techUsed.map((tech) => (
-                        <TechBadge key={tech} tech={tech} />
-                      ))}
-                    </div>
-                  </ScrollableContainer>
+                  <div className='mb-3'>
+                    <TechBadgeList techList={job.techUsed} maxVisible={5} className='pb-2' />
+                  </div>
 
                   {/* Expanded Details */}
                   <AnimatePresence>
