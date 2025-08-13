@@ -1,5 +1,5 @@
 import { createFileRoute, notFound, Link } from '@tanstack/react-router'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   Calendar,
@@ -23,6 +23,7 @@ import TechBadge from '@/components/TechBadge'
 import { getTechFocus, getTechCategory, calculateStackComplexity } from '@/data/techCategories'
 import { categorizeAccomplishments, getAccomplishmentStats } from '@/data/accomplishmentCategories'
 import { analyzeRole } from '@/data/roleAnalysis'
+import { useIsMobile } from '@/hooks/useMobile'
 
 export const Route = createFileRoute('/resume/$company')({
   loader: ({ params }) => {
@@ -38,6 +39,18 @@ export const Route = createFileRoute('/resume/$company')({
 function RouteComponent() {
   const { job } = Route.useLoaderData()
   const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set(['overview']))
+  const [isScrolled, setIsScrolled] = useState(false)
+  const isMobile = useIsMobile()
+
+  // Scroll detection for header compression
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20)
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   // Calculate career context
   const currentJobIndex = RESUME.findIndex((j) => j.id === job.id)
@@ -128,70 +141,89 @@ function RouteComponent() {
     <motion.div className='min-h-screen bg-background' variants={containerVariants} initial='hidden' animate='visible'>
       {/* Header with Back Navigation - Full width background */}
       <motion.div className='border-b bg-card/50 backdrop-blur-sm sticky top-0 z-10' variants={itemVariants}>
-        <div className='max-w-7xl mx-auto p-6'>
-          <div className='flex items-center gap-4 mb-4'>
+        <div className='max-w-7xl mx-auto p-4 md:p-6'>
+          <div className='flex items-center gap-3 md:gap-4 mb-3 md:mb-4'>
             <Link to='/resume'>
               <Button variant='ghost' size='sm' className='gap-2'>
                 <ArrowLeft className='w-4 h-4' />
-                Back to Resume
+                <span className='hidden sm:inline'>Back to Resume</span>
+                <span className='sm:hidden'>Back</span>
               </Button>
             </Link>
             {isCurrentRole && (
-              <div className='flex items-center gap-2 px-3 py-1 bg-accent/20 text-accent rounded-full text-sm'>
-                <div className='w-2 h-2 bg-accent rounded-full animate-pulse' />
-                Current Role
+              <div className='flex items-center gap-2 px-2 md:px-3 py-1 bg-accent/20 text-accent rounded-full text-xs md:text-sm'>
+                <div className='w-1.5 h-1.5 md:w-2 md:h-2 bg-accent rounded-full animate-pulse' />
+                <span className='hidden sm:inline'>Current Role</span>
+                <span className='sm:hidden'>Current</span>
               </div>
             )}
           </div>
 
-          <div className='flex items-start gap-6'>
+          <div className='flex items-start gap-3 md:gap-6'>
             <motion.div
-              className='relative'
+              className='relative flex-shrink-0'
               whileHover={{ scale: 1.05 }}
               transition={{ type: 'spring', stiffness: 300 }}
             >
               <a href={job.icon.href} target='_blank' rel='noopener noreferrer'>
-                <div className='p-2 bg-background rounded-md border hover:border-primary/50 transition-colors cursor-pointer group'>
-                  <job.icon.icon className='w-20 h-20 text-primary group-hover:scale-110 transition-transform' />
+                <div className='p-1.5 md:p-2 bg-background rounded-md border hover:border-primary/50 transition-colors cursor-pointer group'>
+                  <job.icon.icon className='w-12 h-12 md:w-20 md:h-20 text-primary group-hover:scale-110 transition-transform' />
                 </div>
               </a>
             </motion.div>
 
-            <div className='flex-1 space-y-3'>
+            <div className='flex-1 space-y-2 md:space-y-3 min-w-0'>
               <div>
-                <h1 className='text-4xl font-bold tracking-tight'>{job.companyName}</h1>
-                <p className='text-xl text-muted-foreground font-medium'>{job.role}</p>
+                <h1 className='text-2xl md:text-4xl font-bold tracking-tight leading-tight'>{job.companyName}</h1>
+                <p className='text-lg md:text-xl text-muted-foreground font-medium leading-tight'>{job.role}</p>
               </div>
 
-              <div className='flex items-center gap-6 text-sm'>
+              <div className='flex flex-col sm:flex-row sm:items-center gap-3 md:gap-6 text-xs md:text-sm'>
                 <div className='flex items-center gap-2'>
-                  <Calendar className='w-4 h-4 text-muted-foreground' />
+                  <Calendar className='w-3 h-3 md:w-4 md:h-4 text-muted-foreground' />
                   <span>
                     {job.startDate} - {job.endDate}
                   </span>
                 </div>
-                <div className='flex items-center gap-2'>
-                  <Clock className='w-4 h-4 text-muted-foreground' />
-                  <span>{duration}</span>
-                </div>
-                <div className='flex items-center gap-2'>
-                  <BarChart3 className='w-4 h-4 text-muted-foreground' />
-                  <span>
-                    Position #{RESUME.length - currentJobIndex} of {RESUME.length}
-                  </span>
-                </div>
+                <AnimatePresence mode='wait'>
+                  {(!isMobile || !isScrolled) && (
+                    <motion.div
+                      key='metadata'
+                      initial={{ opacity: 0, height: 0, x: -10 }}
+                      animate={{ opacity: 1, height: 'auto', x: 0 }}
+                      exit={{ opacity: 0, height: 0, x: -10 }}
+                      transition={{
+                        duration: 0.3,
+                        ease: 'easeInOut',
+                        height: { duration: 0.2 },
+                      }}
+                      className='flex flex-col sm:flex-row sm:items-center gap-3 md:gap-6 overflow-hidden'
+                    >
+                      <div className='flex items-center gap-2'>
+                        <Clock className='w-3 h-3 md:w-4 md:h-4 text-muted-foreground' />
+                        <span>{duration}</span>
+                      </div>
+                      <div className='flex items-center gap-2'>
+                        <BarChart3 className='w-3 h-3 md:w-4 md:h-4 text-muted-foreground' />
+                        <span>
+                          Position #{RESUME.length - currentJobIndex} of {RESUME.length}
+                        </span>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
 
               {/* Career progression context */}
               {(previousJob || nextJob) && (
-                <div className='flex items-center gap-4 pt-2'>
-                  <GitBranch className='w-4 h-4 text-muted-foreground' />
-                  <div className='flex items-center gap-2 text-sm text-accent'>
+                <div className='flex items-center gap-3 md:gap-4 pt-1 md:pt-2'>
+                  <GitBranch className='w-3 h-3 md:w-4 md:h-4 text-muted-foreground flex-shrink-0' />
+                  <div className='flex items-center gap-2 text-xs md:text-sm text-accent min-w-0'>
                     {previousJob && (
                       <Link
                         to='/resume/$company'
                         params={{ company: previousJob.id }}
-                        className='hover:text-foreground transition-colors'
+                        className='hover:text-foreground transition-colors truncate'
                       >
                         ← {previousJob.companyName}
                       </Link>
@@ -201,7 +233,7 @@ function RouteComponent() {
                       <Link
                         to='/resume/$company'
                         params={{ company: nextJob.id }}
-                        className='hover:text-foreground transition-colors'
+                        className='hover:text-foreground transition-colors truncate'
                       >
                         {nextJob.companyName} →
                       </Link>
@@ -216,26 +248,26 @@ function RouteComponent() {
 
       {/* Main Content - Constrained width */}
       <div className='max-w-7xl mx-auto'>
-        <div className='p-6 space-y-8'>
+        <div className='p-4 md:p-6 space-y-6 md:space-y-8'>
           {/* Role Overview Section */}
           <motion.div className='bg-card rounded-lg border shadow-sm overflow-hidden' variants={itemVariants}>
             <button
               onClick={() => toggleSection('overview')}
-              className='w-full p-6 flex items-center justify-between hover:bg-muted/50 transition-colors'
+              className='w-full p-4 md:p-6 flex items-center justify-between hover:bg-muted/50 transition-colors'
             >
               <div className='flex items-center gap-3'>
                 <div className='p-2 bg-primary/10 rounded-lg'>
-                  <Star className='w-5 h-5 text-primary' />
+                  <Star className='w-4 h-4 md:w-5 md:h-5 text-primary' />
                 </div>
                 <div className='text-left'>
-                  <h2 className='text-xl font-semibold'>Role Overview</h2>
-                  <p className='text-sm text-muted-foreground'>Impact highlights and key metrics</p>
+                  <h2 className='text-lg md:text-xl font-semibold'>Role Overview</h2>
+                  <p className='text-xs md:text-sm text-muted-foreground'>Impact highlights and key metrics</p>
                 </div>
               </div>
               {expandedSections.has('overview') ? (
-                <ChevronUp className='w-5 h-5 text-muted-foreground' />
+                <ChevronUp className='w-4 h-4 md:w-5 md:h-5 text-muted-foreground' />
               ) : (
-                <ChevronDown className='w-5 h-5 text-muted-foreground' />
+                <ChevronDown className='w-4 h-4 md:w-5 md:h-5 text-muted-foreground' />
               )}
             </button>
 
@@ -248,8 +280,8 @@ function RouteComponent() {
                   exit='exit'
                   className='overflow-hidden'
                 >
-                  <div className='px-6 pb-6 border-t bg-muted/20'>
-                    <div className='grid md:grid-cols-3 gap-6 pt-6'>
+                  <div className='px-4 md:px-6 pb-4 md:pb-6 border-t bg-muted/20'>
+                    <div className='grid md:grid-cols-3 gap-4 md:gap-6 pt-4 md:pt-6'>
                       {/* Key metrics */}
                       <div className='space-y-4'>
                         <h3 className='font-semibold text-sm uppercase tracking-wide text-muted-foreground'>
@@ -326,21 +358,23 @@ function RouteComponent() {
           <motion.div className='bg-card rounded-lg border shadow-sm overflow-hidden' variants={itemVariants}>
             <button
               onClick={() => toggleSection('accomplishments')}
-              className='w-full p-6 flex items-center justify-between hover:bg-muted/50 transition-colors'
+              className='w-full p-4 md:p-6 flex items-center justify-between hover:bg-muted/50 transition-colors'
             >
               <div className='flex items-center gap-3'>
                 <div className='p-2 bg-primary/10 rounded-lg'>
-                  <Target className='w-5 h-5 text-primary' />
+                  <Target className='w-4 h-4 md:w-5 md:h-5 text-primary' />
                 </div>
                 <div className='text-left'>
-                  <h2 className='text-xl font-semibold'>Key Accomplishments</h2>
-                  <p className='text-sm text-muted-foreground'>Detailed breakdown of impact and achievements</p>
+                  <h2 className='text-lg md:text-xl font-semibold'>Key Accomplishments</h2>
+                  <p className='text-xs md:text-sm text-muted-foreground'>
+                    Detailed breakdown of impact and achievements
+                  </p>
                 </div>
               </div>
               {expandedSections.has('accomplishments') ? (
-                <ChevronUp className='w-5 h-5 text-muted-foreground' />
+                <ChevronUp className='w-4 h-4 md:w-5 md:h-5 text-muted-foreground' />
               ) : (
-                <ChevronDown className='w-5 h-5 text-muted-foreground' />
+                <ChevronDown className='w-4 h-4 md:w-5 md:h-5 text-muted-foreground' />
               )}
             </button>
 
@@ -353,8 +387,8 @@ function RouteComponent() {
                   exit='exit'
                   className='overflow-hidden'
                 >
-                  <div className='px-6 pb-6 border-t bg-muted/20'>
-                    <div className='pt-6 space-y-4'>
+                  <div className='px-4 md:px-6 pb-4 md:pb-6 border-t bg-muted/20'>
+                    <div className='pt-4 md:pt-6 space-y-3 md:space-y-4'>
                       {categorizedAccomplishments.map((accomplishment, index) => (
                         <motion.div
                           key={`${accomplishment.id}-${job.id}`}
@@ -405,21 +439,21 @@ function RouteComponent() {
           <motion.div className='bg-card rounded-lg border shadow-sm overflow-hidden' variants={itemVariants}>
             <button
               onClick={() => toggleSection('technology')}
-              className='w-full p-6 flex items-center justify-between hover:bg-muted/50 transition-colors'
+              className='w-full p-4 md:p-6 flex items-center justify-between hover:bg-muted/50 transition-colors'
             >
               <div className='flex items-center gap-3'>
                 <div className='p-2 bg-primary/10 rounded-lg'>
-                  <Code2 className='w-5 h-5 text-primary' />
+                  <Code2 className='w-4 h-4 md:w-5 md:h-5 text-primary' />
                 </div>
                 <div className='text-left'>
-                  <h2 className='text-xl font-semibold'>Technology Deep Dive</h2>
-                  <p className='text-sm text-muted-foreground'>Technical stack and implementation details</p>
+                  <h2 className='text-lg md:text-xl font-semibold'>Technology Deep Dive</h2>
+                  <p className='text-xs md:text-sm text-muted-foreground'>Technical stack and implementation details</p>
                 </div>
               </div>
               {expandedSections.has('technology') ? (
-                <ChevronUp className='w-5 h-5 text-muted-foreground' />
+                <ChevronUp className='w-4 h-4 md:w-5 md:h-5 text-muted-foreground' />
               ) : (
-                <ChevronDown className='w-5 h-5 text-muted-foreground' />
+                <ChevronDown className='w-4 h-4 md:w-5 md:h-5 text-muted-foreground' />
               )}
             </button>
 
@@ -432,8 +466,8 @@ function RouteComponent() {
                   exit='exit'
                   className='overflow-hidden'
                 >
-                  <div className='px-6 pb-6 border-t bg-muted/20'>
-                    <div className='pt-6 grid md:grid-cols-2 gap-6'>
+                  <div className='px-4 md:px-6 pb-4 md:pb-6 border-t bg-muted/20'>
+                    <div className='pt-4 md:pt-6 grid md:grid-cols-2 gap-4 md:gap-6'>
                       {/* Technology categories */}
                       <div className='space-y-4'>
                         <h3 className='font-semibold text-sm uppercase tracking-wide text-muted-foreground'>
