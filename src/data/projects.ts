@@ -17,7 +17,7 @@ export const PROJECTS: Array<Project> = [
         repoUrl: 'https://github.com/jonathan-pe/personal-site-2025',
       },
     ],
-    demoUrl: 'https://jonathanpe.com',
+    demoUrl: 'https://www.jonathanpe.com',
     images: [],
     keyFeatures: [
       'Responsive design with dark/light mode',
@@ -167,17 +167,17 @@ export const PROJECTS: Array<Project> = [
   {
     id: '5oclock',
     title: "It's 5 O'Clock Somewhere",
-    url: null,
+    url: 'https://www.5oclock.club',
     description: "App that shows where in the world it's 5:00pm and suggests a beverage to consume based on location",
     techUsed: ['React', 'styled-components', 'MaterialUI', 'JavaScript'],
-    status: 'archived',
+    status: 'live',
     type: 'personal',
     category: 'web-app',
     featured: false,
     githubUrls: [
       {
         repoName: "It's 5 O'Clock Somewhere",
-        repoUrl: 'https://github.com/jonathan-pe/5oclock',
+        repoUrl: 'https://github.com/jonathan-pe/5oclocksomewhere',
       },
     ],
     keyFeatures: [
