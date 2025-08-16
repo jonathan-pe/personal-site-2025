@@ -70,6 +70,12 @@ export const TECH_CATEGORIES: Record<string, TechCategory> = {
     color: 'teal',
     priority: 6,
   },
+  'AI/ML Framework': {
+    name: 'AI/ML Framework',
+    icon: Cpu,
+    color: 'yellow',
+    priority: 8,
+  },
   'Web Technology': {
     name: 'Web Technology',
     icon: Globe,
@@ -213,6 +219,84 @@ export const TECH_METADATA: Record<string, TechMetadata> = {
     subcategory: 'JavaScript Testing',
     description: 'JavaScript testing framework',
     focusArea: 'testing',
+  },
+
+  // AI/ML Frameworks
+  'Vercel AI SDK': {
+    category: TECH_CATEGORIES['AI/ML Framework'],
+    subcategory: 'AI Development Kit',
+    description: 'AI-powered SDK for building conversational UIs',
+    focusArea: 'fullstack',
+  },
+
+  // Build Tools & Development
+  Vite: {
+    category: TECH_CATEGORIES['Web Technology'],
+    subcategory: 'Build Tool',
+    description: 'Fast build tool and development server',
+    focusArea: 'fullstack',
+  },
+  'TanStack Router': {
+    category: TECH_CATEGORIES['Frontend Framework'],
+    subcategory: 'Routing Library',
+    description: 'Type-safe router for React applications',
+    focusArea: 'frontend',
+  },
+  shadcn: {
+    category: TECH_CATEGORIES['UI Library'],
+    subcategory: 'Component System',
+    description: 'Copy-paste React components built with Radix UI',
+    focusArea: 'frontend',
+  },
+  'Tailwind CSS': {
+    category: TECH_CATEGORIES['Styling/Markup'],
+    subcategory: 'Utility-first CSS',
+    description: 'Utility-first CSS framework',
+    focusArea: 'frontend',
+  },
+  'Framer Motion': {
+    category: TECH_CATEGORIES['UI Library'],
+    subcategory: 'Animation Library',
+    description: 'Production-ready motion library for React',
+    focusArea: 'frontend',
+  },
+  Zustand: {
+    category: TECH_CATEGORIES['Frontend Framework'],
+    subcategory: 'State Management',
+    description: 'Lightweight state management solution',
+    focusArea: 'frontend',
+  },
+
+  // Backend & Database
+  Express: {
+    category: TECH_CATEGORIES['Backend Framework'],
+    subcategory: 'Web Framework',
+    description: 'Fast, minimalist web framework for Node.js',
+    focusArea: 'backend',
+  },
+  MongoDB: {
+    category: TECH_CATEGORIES['Backend Framework'],
+    subcategory: 'NoSQL Database',
+    description: 'Document-oriented NoSQL database',
+    focusArea: 'backend',
+  },
+  PostgreSQL: {
+    category: TECH_CATEGORIES['Backend Framework'],
+    subcategory: 'SQL Database',
+    description: 'Advanced open-source relational database',
+    focusArea: 'backend',
+  },
+  Prisma: {
+    category: TECH_CATEGORIES['Backend Framework'],
+    subcategory: 'Database ORM',
+    description: 'Type-safe database toolkit',
+    focusArea: 'backend',
+  },
+  'Next.js': {
+    category: TECH_CATEGORIES['Frontend Framework'],
+    subcategory: 'React Framework',
+    description: 'Full-stack React framework',
+    focusArea: 'fullstack',
   },
 }
 

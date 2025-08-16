@@ -6,7 +6,7 @@ export const PROJECTS: Array<Project> = [
     title: 'Personal Website',
     url: 'https://jonathanpe.com',
     description: 'Personal Website created to practice various skills, learn new technologies, and showcase my work',
-    techUsed: ['React', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'Vite', 'shadcn'],
+    techUsed: ['React', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'Vite', 'shadcn', 'Vercel AI SDK'],
     status: 'live',
     type: 'personal',
     category: 'portfolio',
@@ -20,6 +20,7 @@ export const PROJECTS: Array<Project> = [
     demoUrl: 'https://www.jonathanpe.com',
     images: [],
     keyFeatures: [
+      'AI-powered chatbot for interactive portfolio exploration',
       'Responsive design with dark/light mode',
       'Smooth animations with Framer Motion',
       'Type-safe routing with TanStack Router',
@@ -27,6 +28,7 @@ export const PROJECTS: Array<Project> = [
       'Built with AI to enhance development efficiency',
     ],
     challenges: [
+      'Integrating AI-powered features on the frontend',
       'Creating a flexible component system',
       'Implementing performant animations',
       'Optimizing for both desktop and mobile',

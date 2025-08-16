@@ -58,9 +58,10 @@ Other Experience:
 - Full Stack Software Engineer at Gliffy Inc. (Jul 2017 - Jan 2019): Node.js microservices, Ember.js
 
 CURRENT PROJECTS:
-1. Personal Website (2025) - React, TypeScript, Tailwind CSS, Framer Motion, Vite, shadcn
+1. Personal Website (2025) - React, TypeScript, Tailwind CSS, Framer Motion, Vite, shadcn, Vercel AI SDK
    - Responsive design with dark/light mode, smooth animations
    - Type-safe routing with TanStack Router, modern component system
+   - AI-powered chatbot for interactive portfolio exploration
    - Built with AI to enhance development efficiency
 
 2. kinshipr (In Development) - Full-stack social networking platform
@@ -83,6 +84,7 @@ Frontend: React, TypeScript, Next.js, Tailwind CSS, Framer Motion, JavaScript, H
 Backend: Node.js, Express, GraphQL, REST APIs, Java, Swift
 Databases: MongoDB, PostgreSQL, Prisma
 Mobile: React Native, iOS (Swift)
+AI/ML: Vercel AI SDK, OpenAI API integration
 Tools: Vite, TanStack Router, Zustand, Zod, Clerk Auth, Jest, Git
 Specialties: Full-stack development, system architecture, UI/UX design, performance optimization
 
