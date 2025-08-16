@@ -169,7 +169,7 @@ export const PROJECTS: Array<Project> = [
     title: "It's 5 O'Clock Somewhere",
     url: 'https://www.5oclock.club',
     description: "App that shows where in the world it's 5:00pm and suggests a beverage to consume based on location",
-    techUsed: ['React', 'styled-components', 'MaterialUI', 'JavaScript'],
+    techUsed: ['React', 'Vite', 'shadcn', 'TypeScript', 'Tailwind CSS'],
     status: 'live',
     type: 'personal',
     category: 'web-app',
