@@ -1,11 +1,100 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
+   <!-- Home Page -->
    <url>
       <loc>https://www.jonathanpe.com/</loc>
-      <lastmod>2025-08-11</lastmod>
+      <lastmod>2025-08-15</lastmod>
       <changefreq>weekly</changefreq>
       <priority>1.0</priority>
+   </url>
+
+   <!-- Resume Section -->
+   <url>
+      <loc>https://www.jonathanpe.com/resume/</loc>
+      <lastmod>2025-08-15</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+
+   <!-- Projects Section -->
+   <url>
+      <loc>https://www.jonathanpe.com/projects/</loc>
+      <lastmod>2025-08-15</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>0.9</priority>
+   </url>
+
+   <!-- Individual Project Pages -->
+   <url>
+      <loc>https://www.jonathanpe.com/projects/personalWebsite</loc>
+      <lastmod>2025-08-15</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.7</priority>
+   </url>
+
+   <url>
+      <loc>https://www.jonathanpe.com/projects/pulse</loc>
+      <lastmod>2025-08-15</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.7</priority>
+   </url>
+
+   <url>
+      <loc>https://www.jonathanpe.com/projects/kinshipr</loc>
+      <lastmod>2025-08-15</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.7</priority>
+   </url>
+
+   <url>
+      <loc>https://www.jonathanpe.com/projects/5oclock</loc>
+      <lastmod>2025-08-15</lastmod>
+      <changefreq>yearly</changefreq>
+      <priority>0.5</priority>
+   </url>
+
+   <!-- Individual Resume/Company Pages -->
+   <url>
+      <loc>https://www.jonathanpe.com/resume/meta</loc>
+      <lastmod>2025-08-15</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.7</priority>
+   </url>
+
+   <url>
+      <loc>https://www.jonathanpe.com/resume/apple</loc>
+      <lastmod>2025-08-15</lastmod>
+      <changefreq>yearly</changefreq>
+      <priority>0.6</priority>
+   </url>
+
+   <url>
+      <loc>https://www.jonathanpe.com/resume/reputation</loc>
+      <lastmod>2025-08-15</lastmod>
+      <changefreq>yearly</changefreq>
+      <priority>0.6</priority>
+   </url>
+
+   <url>
+      <loc>https://www.jonathanpe.com/resume/dolbyIO</loc>
+      <lastmod>2025-08-15</lastmod>
+      <changefreq>yearly</changefreq>
+      <priority>0.6</priority>
+   </url>
+
+   <url>
+      <loc>https://www.jonathanpe.com/resume/STRATIM_OPENLANE</loc>
+      <lastmod>2025-08-15</lastmod>
+      <changefreq>yearly</changefreq>
+      <priority>0.6</priority>
+   </url>
+
+   <url>
+      <loc>https://www.jonathanpe.com/resume/gliffy</loc>
+      <lastmod>2025-08-15</lastmod>
+      <changefreq>yearly</changefreq>
+      <priority>0.6</priority>
    </url>
 
 </urlset>

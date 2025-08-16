@@ -19,4 +19,28 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  build: {
+    // Optimize for better loading performance
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          router: ['@tanstack/react-router'],
+          ui: ['@radix-ui/react-avatar', '@radix-ui/react-collapsible', '@radix-ui/react-dialog'],
+        },
+      },
+    },
+    // Enable compression
+    cssCodeSplit: true,
+    // Generate source maps for better debugging
+    sourcemap: false,
+    // Optimize chunk size
+    chunkSizeWarningLimit: 1000,
+  },
+  // Enable gzip compression for better performance
+  server: {
+    headers: {
+      'Cache-Control': 'public, max-age=31536000',
+    },
+  },
 })
