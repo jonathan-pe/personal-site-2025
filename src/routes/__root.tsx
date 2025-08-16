@@ -3,6 +3,7 @@ import { ThemeProvider } from '@/components/theme/ThemeProvider'
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar'
 import { AppSidebar } from '@/components/sidebar'
 import { MobileHeader } from '@/components/MobileHeader'
+import { ChatBot } from '@/components/chat/ChatBot'
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 
 export const Route = createRootRoute({
@@ -20,6 +21,7 @@ function RootComponent() {
             <Outlet />
           </div>
         </SidebarInset>
+        <ChatBot />
         <TanStackRouterDevtools position='bottom-right' />
       </SidebarProvider>
     </ThemeProvider>

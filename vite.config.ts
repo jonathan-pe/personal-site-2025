@@ -39,6 +39,12 @@ export default defineConfig({
   },
   // Enable gzip compression for better performance
   server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3001',
+        changeOrigin: true,
+      },
+    },
     headers: {
       'Cache-Control': 'public, max-age=31536000',
     },
