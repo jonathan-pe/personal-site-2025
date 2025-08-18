@@ -113,9 +113,9 @@ export const ChatBot = ({ className }: ChatBotProps) => {
   return (
     <>
       {/* Chat Window Container */}
-      <div className={cn('fixed z-50', isMobile ? 'inset-0' : 'bottom-20 right-4', className)}>
-        <AnimatePresence>
-          {isOpen && (
+      <AnimatePresence>
+        {isOpen && (
+          <div className={cn('fixed z-50', isMobile ? 'inset-0' : 'bottom-20 right-4', className)}>
             <motion.div
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -280,9 +280,9 @@ export const ChatBot = ({ className }: ChatBotProps) => {
                 </form>
               </Card>
             </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
+          </div>
+        )}
+      </AnimatePresence>
 
       {/* Desktop Toggle Button - Always fixed in bottom-right */}
       {!isMobile && (
