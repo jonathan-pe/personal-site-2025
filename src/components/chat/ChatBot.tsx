@@ -62,7 +62,22 @@ export const ChatBot = ({ className }: ChatBotProps) => {
       })
 
       if (!response.ok) {
-        throw new Error('Failed to get response')
+        // Try to parse error response as JSON
+        const contentType = response.headers.get('content-type')
+        if (contentType && contentType.includes('application/json')) {
+          const errorData = await response.json()
+          throw new Error(errorData.error || 'Failed to get response')
+        } else {
+          throw new Error(`Server error: ${response.status}`)
+        }
+      }
+
+      // Check if this is a streaming response or JSON response
+      const contentType = response.headers.get('content-type')
+      if (contentType && contentType.includes('application/json')) {
+        // Handle JSON response (shouldn't happen for successful requests, but just in case)
+        const data = await response.json()
+        throw new Error(data.error || 'Unexpected JSON response')
       }
 
       const reader = response.body?.getReader()
