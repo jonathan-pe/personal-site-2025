@@ -3,16 +3,13 @@
   "outputDirectory": "dist",
   "functions": {
     "api/chat.ts": {
-      "maxDuration": 30,
-      "runtime": "nodejs20.x"
+      "maxDuration": 30
     },
     "api/health.ts": {
-      "maxDuration": 10,
-      "runtime": "nodejs20.x"
+      "maxDuration": 10
     },
     "api/chat-test.ts": {
-      "maxDuration": 10,
-      "runtime": "nodejs20.x"
+      "maxDuration": 10
     }
   },
   "rewrites": [
