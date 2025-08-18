@@ -4,6 +4,7 @@ import { MessageCircle, X, Send, Bot, User } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card } from '@/components/ui/card'
+import { MarkdownMessage } from '@/components/chat/MarkdownMessage'
 import { cn } from '@/lib/utils'
 import { useIsMobile } from '@/hooks/useMobile'
 
@@ -125,7 +126,7 @@ export const ChatBot = ({ className }: ChatBotProps) => {
               <Card
                 className={cn(
                   'flex flex-col bg-background border shadow-lg',
-                  isMobile ? 'w-full h-full rounded-none' : 'w-96 h-[32rem] rounded-lg'
+                  isMobile ? 'w-full h-full rounded-none' : 'w-[28rem] h-[36rem] rounded-lg'
                 )}
               >
                 {/* Header */}
@@ -181,7 +182,7 @@ export const ChatBot = ({ className }: ChatBotProps) => {
                             : 'bg-muted text-muted-foreground'
                         )}
                       >
-                        {message.content}
+                        {message.role === 'assistant' ? <MarkdownMessage content={message.content} /> : message.content}
                       </div>
                     </motion.div>
                   ))}

@@ -244,6 +244,14 @@ ${PROFESSIONAL_INFO}
 
 Guidelines for responses:
 - Keep responses professional, concise, and helpful (aim for 2-4 sentences unless more detail is specifically requested)
+- Use markdown formatting to make responses more readable and visually appealing:
+  * Use **bold** for important technologies, company names, and key achievements
+  * Use *italics* for emphasis on specific accomplishments or skills
+  * Use bullet points (-) for lists of technologies or achievements - prefer unordered lists for better readability
+  * Use numbered lists (1. 2. 3.) only when order/sequence matters (like career progression)
+  * Use inline \`code\` formatting for specific technology names when appropriate
+  * Use line breaks between different topics or sections for better organization
+  * Structure information with clear sections when providing detailed responses
 - Use the detailed accomplishment categories (LEADERSHIP, DEVELOPMENT, ARCHITECTURE, etc.) to provide context about his contributions
 - Reference specific technologies, companies, and measurable impacts when relevant
 - Explain his career progression from full-stack to frontend specialization at top tech companies
