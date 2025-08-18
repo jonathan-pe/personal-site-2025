@@ -87,7 +87,7 @@ APPROACH & STRENGTHS:
 - Performance optimization for large datasets and complex interfaces
 `
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+async function handler(req: VercelRequest, res: VercelResponse) {
   // Enable CORS
   res.setHeader('Access-Control-Allow-Origin', '*')
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
@@ -182,3 +182,5 @@ Example topics you can discuss:
     }
   }
 }
+
+export default handler
