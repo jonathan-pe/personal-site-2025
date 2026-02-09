@@ -1,4 +1,12 @@
-import { MetaIcon, ReputationIcon, DolbyIcon, STRATIMIcon, GliffyIcon, AppleIcon } from '@/assets/CompanyIcons'
+import {
+  EpicGamesIcon,
+  MetaIcon,
+  ReputationIcon,
+  DolbyIcon,
+  STRATIMIcon,
+  GliffyIcon,
+  AppleIcon,
+} from '@/assets/CompanyIcons'
 import type { Job } from '@/types/resume'
 
 export const RESUME: Array<Job> = [
@@ -8,7 +16,7 @@ export const RESUME: Array<Job> = [
     role: 'Senior Web Engineer',
     startDate: 'September 2025',
     endDate: 'Present',
-    icon: MetaIcon,
+    icon: EpicGamesIcon,
     accomplishments: [
       "Leading React development for Epic's Self Publishing Tool, driving architectural improvements and scalable feature delivery across the web platform",
       "Implemented a Node.js backend service to integrate with Epic's internal APIs, enabling seamless data flow and robust integration with frontend interfaces",
