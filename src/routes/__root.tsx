@@ -1,10 +1,14 @@
+import { lazy, Suspense } from 'react'
 import { createRootRoute, Outlet } from '@tanstack/react-router'
 import { ThemeProvider } from '@/components/theme/ThemeProvider'
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar'
 import { AppSidebar } from '@/components/sidebar'
 import { MobileHeader } from '@/components/MobileHeader'
 import { ChatBot } from '@/components/chat/ChatBot'
-import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
+
+const RouterDevtools = import.meta.env.DEV
+  ? lazy(() => import('@tanstack/react-router-devtools').then((mod) => ({ default: mod.TanStackRouterDevtools })))
+  : null
 
 export const Route = createRootRoute({
   component: RootComponent,
@@ -22,7 +26,11 @@ function RootComponent() {
           </div>
         </SidebarInset>
         <ChatBot />
-        <TanStackRouterDevtools position='bottom-right' />
+        {RouterDevtools ? (
+          <Suspense fallback={null}>
+            <RouterDevtools position='bottom-right' />
+          </Suspense>
+        ) : null}
       </SidebarProvider>
     </ThemeProvider>
   )

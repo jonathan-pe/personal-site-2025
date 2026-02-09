@@ -1,10 +1,10 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { MessageCircle, X, Send, Bot, User } from 'lucide-react'
+import { MessageCircle, X, Send, Bot } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card } from '@/components/ui/card'
-import { MarkdownMessage } from '@/components/chat/MarkdownMessage'
+import { MessageBubble } from '@/components/chat/MessageBubble'
 import { cn } from '@/lib/utils'
 import { useIsMobile } from '@/hooks/useMobile'
 
@@ -33,82 +33,85 @@ export const ChatBot = ({ className }: ChatBotProps) => {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!input.trim() || isLoading) return
+  const handleSubmit = useCallback(
+    async (e: React.FormEvent) => {
+      e.preventDefault()
+      if (!input.trim() || isLoading) return
 
-    const userMessage: ChatMessage = {
-      id: Date.now().toString(),
-      role: 'user',
-      content: input,
-    }
+      const userMessage: ChatMessage = {
+        id: Date.now().toString(),
+        role: 'user',
+        content: input,
+      }
 
-    setMessages((prev) => [...prev, userMessage])
-    setInput('')
-    setIsLoading(true)
-    setError(null)
+      setMessages((prev) => [...prev, userMessage])
+      setInput('')
+      setIsLoading(true)
+      setError(null)
 
-    try {
-      const response = await fetch('/api/chat', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          messages: [...messages, userMessage].map((msg) => ({
-            role: msg.role,
-            content: msg.content,
-          })),
-        }),
-      })
+      try {
+        const response = await fetch('/api/chat', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            messages: [...messages, userMessage].map((msg) => ({
+              role: msg.role,
+              content: msg.content,
+            })),
+          }),
+        })
 
-      if (!response.ok) {
-        // Try to parse error response as JSON
+        if (!response.ok) {
+          // Try to parse error response as JSON
+          const contentType = response.headers.get('content-type')
+          if (contentType && contentType.includes('application/json')) {
+            const errorData = await response.json()
+            throw new Error(errorData.error || 'Failed to get response')
+          } else {
+            throw new Error(`Server error: ${response.status}`)
+          }
+        }
+
+        // Check if this is a streaming response or JSON response
         const contentType = response.headers.get('content-type')
         if (contentType && contentType.includes('application/json')) {
-          const errorData = await response.json()
-          throw new Error(errorData.error || 'Failed to get response')
-        } else {
-          throw new Error(`Server error: ${response.status}`)
+          // Handle JSON response (shouldn't happen for successful requests, but just in case)
+          const data = await response.json()
+          throw new Error(data.error || 'Unexpected JSON response')
         }
+
+        const reader = response.body?.getReader()
+        if (!reader) throw new Error('No response stream')
+
+        const assistantMessage: ChatMessage = {
+          id: (Date.now() + 1).toString(),
+          role: 'assistant',
+          content: '',
+        }
+
+        setMessages((prev) => [...prev, assistantMessage])
+
+        const decoder = new TextDecoder()
+        while (true) {
+          const { done, value } = await reader.read()
+          if (done) break
+
+          const chunk = decoder.decode(value)
+          setMessages((prev) =>
+            prev.map((msg) => (msg.id === assistantMessage.id ? { ...msg, content: msg.content + chunk } : msg)),
+          )
+        }
+      } catch (err) {
+        setError('Sorry, I encountered an error. Please try again.')
+        console.error('Chat error:', err)
+      } finally {
+        setIsLoading(false)
       }
-
-      // Check if this is a streaming response or JSON response
-      const contentType = response.headers.get('content-type')
-      if (contentType && contentType.includes('application/json')) {
-        // Handle JSON response (shouldn't happen for successful requests, but just in case)
-        const data = await response.json()
-        throw new Error(data.error || 'Unexpected JSON response')
-      }
-
-      const reader = response.body?.getReader()
-      if (!reader) throw new Error('No response stream')
-
-      const assistantMessage: ChatMessage = {
-        id: (Date.now() + 1).toString(),
-        role: 'assistant',
-        content: '',
-      }
-
-      setMessages((prev) => [...prev, assistantMessage])
-
-      const decoder = new TextDecoder()
-      while (true) {
-        const { done, value } = await reader.read()
-        if (done) break
-
-        const chunk = decoder.decode(value)
-        setMessages((prev) =>
-          prev.map((msg) => (msg.id === assistantMessage.id ? { ...msg, content: msg.content + chunk } : msg))
-        )
-      }
-    } catch (err) {
-      setError('Sorry, I encountered an error. Please try again.')
-      console.error('Chat error:', err)
-    } finally {
-      setIsLoading(false)
-    }
-  }
+    },
+    [input, isLoading, messages],
+  )
 
   return (
     <>
@@ -126,7 +129,7 @@ export const ChatBot = ({ className }: ChatBotProps) => {
               <Card
                 className={cn(
                   'flex flex-col bg-background border shadow-lg',
-                  isMobile ? 'w-full h-full rounded-none' : 'w-[28rem] h-[36rem] rounded-lg'
+                  isMobile ? 'w-full h-full rounded-none' : 'w-[28rem] h-[36rem] rounded-lg',
                 )}
               >
                 {/* Header */}
@@ -148,43 +151,7 @@ export const ChatBot = ({ className }: ChatBotProps) => {
                 {/* Messages */}
                 <div className={cn('flex-1 overflow-y-auto space-y-3', isMobile ? 'p-4 pb-2' : 'p-4')}>
                   {messages.map((message: ChatMessage) => (
-                    <motion.div
-                      key={message.id}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.3 }}
-                      className={cn(
-                        'flex items-start',
-                        message.role === 'user' ? 'flex-row-reverse space-x-reverse space-x-2' : 'space-x-2'
-                      )}
-                    >
-                      <div
-                        className={cn(
-                          'flex-shrink-0 rounded-full flex items-center justify-center',
-                          isMobile ? 'w-8 h-8' : 'w-6 h-6',
-                          message.role === 'user'
-                            ? 'bg-primary text-primary-foreground'
-                            : 'bg-muted text-muted-foreground'
-                        )}
-                      >
-                        {message.role === 'user' ? (
-                          <User className={cn(isMobile ? 'h-4 w-4' : 'h-3 w-3')} />
-                        ) : (
-                          <Bot className={cn(isMobile ? 'h-4 w-4' : 'h-3 w-3')} />
-                        )}
-                      </div>
-                      <div
-                        className={cn(
-                          'rounded-lg break-words',
-                          isMobile ? 'p-3 text-base max-w-[80%]' : 'p-3 text-sm max-w-[85%]',
-                          message.role === 'user'
-                            ? 'bg-primary text-primary-foreground'
-                            : 'bg-muted text-muted-foreground'
-                        )}
-                      >
-                        {message.role === 'assistant' ? <MarkdownMessage content={message.content} /> : message.content}
-                      </div>
-                    </motion.div>
+                    <MessageBubble key={message.id} message={message} isMobile={isMobile} />
                   ))}
                   {isLoading && (
                     <motion.div
@@ -195,7 +162,7 @@ export const ChatBot = ({ className }: ChatBotProps) => {
                       <div
                         className={cn(
                           'flex-shrink-0 rounded-full bg-muted text-muted-foreground flex items-center justify-center',
-                          isMobile ? 'w-8 h-8' : 'w-6 h-6'
+                          isMobile ? 'w-8 h-8' : 'w-6 h-6',
                         )}
                       >
                         <Bot className={cn(isMobile ? 'h-4 w-4' : 'h-3 w-3')} />
@@ -203,27 +170,27 @@ export const ChatBot = ({ className }: ChatBotProps) => {
                       <div
                         className={cn(
                           'bg-muted rounded-lg',
-                          isMobile ? 'p-3 text-base max-w-[80%]' : 'p-3 text-sm max-w-[85%]'
+                          isMobile ? 'p-3 text-base max-w-[80%]' : 'p-3 text-sm max-w-[85%]',
                         )}
                       >
                         <div className='flex space-x-1'>
                           <div
                             className={cn(
                               'bg-muted-foreground rounded-full animate-bounce',
-                              isMobile ? 'w-3 h-3' : 'w-2 h-2'
+                              isMobile ? 'w-3 h-3' : 'w-2 h-2',
                             )}
                           />
                           <div
                             className={cn(
                               'bg-muted-foreground rounded-full animate-bounce',
-                              isMobile ? 'w-3 h-3' : 'w-2 h-2'
+                              isMobile ? 'w-3 h-3' : 'w-2 h-2',
                             )}
                             style={{ animationDelay: '0.1s' }}
                           />
                           <div
                             className={cn(
                               'bg-muted-foreground rounded-full animate-bounce',
-                              isMobile ? 'w-3 h-3' : 'w-2 h-2'
+                              isMobile ? 'w-3 h-3' : 'w-2 h-2',
                             )}
                             style={{ animationDelay: '0.2s' }}
                           />
@@ -240,7 +207,7 @@ export const ChatBot = ({ className }: ChatBotProps) => {
                       <div
                         className={cn(
                           'flex-shrink-0 rounded-full bg-destructive/10 text-destructive flex items-center justify-center',
-                          isMobile ? 'w-8 h-8' : 'w-6 h-6'
+                          isMobile ? 'w-8 h-8' : 'w-6 h-6',
                         )}
                       >
                         <Bot className={cn(isMobile ? 'h-4 w-4' : 'h-3 w-3')} />
@@ -248,7 +215,7 @@ export const ChatBot = ({ className }: ChatBotProps) => {
                       <div
                         className={cn(
                           'bg-destructive/10 text-destructive rounded-lg',
-                          isMobile ? 'p-3 text-base max-w-[80%]' : 'p-3 text-sm max-w-[85%]'
+                          isMobile ? 'p-3 text-base max-w-[80%]' : 'p-3 text-sm max-w-[85%]',
                         )}
                       >
                         Sorry, I encountered an error. Please try again.

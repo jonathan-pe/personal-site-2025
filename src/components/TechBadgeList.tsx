@@ -1,3 +1,4 @@
+import { memo, useMemo } from 'react'
 import TechBadge from '@/components/TechBadge'
 
 interface TechBadgeListProps {
@@ -6,9 +7,13 @@ interface TechBadgeListProps {
   className?: string
 }
 
-const TechBadgeList = ({ techList, maxVisible = 4, className = '' }: TechBadgeListProps) => {
-  const visibleTech = techList.slice(0, maxVisible)
-  const remainingCount = techList.length - maxVisible
+const TechBadgeList = memo(({ techList, maxVisible = 4, className = '' }: TechBadgeListProps) => {
+  const { visibleTech, remainingCount } = useMemo(() => {
+    return {
+      visibleTech: techList.slice(0, maxVisible),
+      remainingCount: techList.length - maxVisible,
+    }
+  }, [techList, maxVisible])
 
   return (
     <div className={`flex flex-wrap gap-1 ${className}`}>
@@ -22,6 +27,8 @@ const TechBadgeList = ({ techList, maxVisible = 4, className = '' }: TechBadgeLi
       )}
     </div>
   )
-}
+})
+
+TechBadgeList.displayName = 'TechBadgeList'
 
 export default TechBadgeList

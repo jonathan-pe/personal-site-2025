@@ -1,5 +1,5 @@
 import { createFileRoute, notFound, Link } from '@tanstack/react-router'
-import { useState, useEffect } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   Calendar,
@@ -37,6 +37,47 @@ export const Route = createFileRoute('/resume/$company')({
   component: RouteComponent,
 })
 
+const parseJobDate = (dateStr: string): Date => {
+  if (dateStr === 'Present') {
+    return new Date()
+  }
+
+  const directParse = new Date(dateStr)
+  if (!isNaN(directParse.getTime())) {
+    return directParse
+  }
+
+  const parts = dateStr.trim().split(' ')
+  if (parts.length === 2) {
+    const [monthStr, yearStr] = parts
+    const year = parseInt(yearStr, 10)
+    const month = new Date(`${monthStr} 1, ${year}`).getMonth()
+
+    if (!isNaN(year) && !isNaN(month)) {
+      return new Date(year, month, 1)
+    }
+  }
+
+  console.warn(`Could not parse date: ${dateStr}`)
+  return new Date()
+}
+
+const calculateDuration = (start: string, end: string) => {
+  const startDate = parseJobDate(start)
+  const endDate = parseJobDate(end)
+
+  const months = Math.round((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24 * 30.44))
+  const years = Math.floor(months / 12)
+  const remainingMonths = months % 12
+
+  if (years > 0 && remainingMonths > 0) {
+    return `${years}y ${remainingMonths}m`
+  } else if (years > 0) {
+    return `${years}y`
+  }
+  return `${months}m`
+}
+
 function RouteComponent() {
   const { job } = Route.useLoaderData()
   const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set(['overview']))
@@ -45,85 +86,60 @@ function RouteComponent() {
 
   // Scroll detection for header compression
   useEffect(() => {
+    let frameId = 0
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20)
+      if (frameId) return
+      frameId = window.requestAnimationFrame(() => {
+        frameId = 0
+        const nextScrolled = window.scrollY > 20
+        setIsScrolled((prev) => (prev === nextScrolled ? prev : nextScrolled))
+      })
     }
 
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      if (frameId) {
+        window.cancelAnimationFrame(frameId)
+      }
+    }
   }, [])
 
-  // Calculate career context
-  const currentJobIndex = RESUME.findIndex((j) => j.id === job.id)
-  const isCurrentRole = job.endDate === 'Present'
-  const previousJob = currentJobIndex < RESUME.length - 1 ? RESUME[currentJobIndex + 1] : null
-  const nextJob = currentJobIndex > 0 ? RESUME[currentJobIndex - 1] : null
-
-  // Calculate role duration
-  const calculateDuration = (start: string, end: string) => {
-    // Helper function to parse date strings like "July 2024" or "Feb 2023"
-    const parseJobDate = (dateStr: string): Date => {
-      if (dateStr === 'Present') {
-        return new Date()
-      }
-
-      // Try direct parsing first
-      const directParse = new Date(dateStr)
-      if (!isNaN(directParse.getTime())) {
-        return directParse
-      }
-
-      // Fallback: parse month/year format
-      const parts = dateStr.trim().split(' ')
-      if (parts.length === 2) {
-        const [monthStr, yearStr] = parts
-        const year = parseInt(yearStr, 10)
-        const month = new Date(`${monthStr} 1, ${year}`).getMonth()
-
-        if (!isNaN(year) && !isNaN(month)) {
-          return new Date(year, month, 1)
-        }
-      }
-
-      // Last resort: return current date to avoid NaN
-      console.warn(`Could not parse date: ${dateStr}`)
-      return new Date()
+  const { currentJobIndex, isCurrentRole, previousJob, nextJob } = useMemo(() => {
+    const index = RESUME.findIndex((j) => j.id === job.id)
+    return {
+      currentJobIndex: index,
+      isCurrentRole: job.endDate === 'Present',
+      previousJob: index < RESUME.length - 1 ? RESUME[index + 1] : null,
+      nextJob: index > 0 ? RESUME[index - 1] : null,
     }
+  }, [job.endDate, job.id])
 
-    const startDate = parseJobDate(start)
-    const endDate = parseJobDate(end)
+  const duration = useMemo(() => calculateDuration(job.startDate, job.endDate), [job.endDate, job.startDate])
 
-    const months = Math.round((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24 * 30.44))
-    const years = Math.floor(months / 12)
-    const remainingMonths = months % 12
+  const techFocus = useMemo(() => getTechFocus(job.techUsed), [job.techUsed])
+  const roleContext = useMemo(() => analyzeRole(job), [job])
+  const stackComplexity = useMemo(() => calculateStackComplexity(job.techUsed), [job.techUsed])
+  const categorizedAccomplishments = useMemo(
+    () => categorizeAccomplishments(job.accomplishments),
+    [job.accomplishments],
+  )
+  const accomplishmentStats = useMemo(
+    () => getAccomplishmentStats(categorizedAccomplishments),
+    [categorizedAccomplishments],
+  )
 
-    if (years > 0 && remainingMonths > 0) {
-      return `${years}y ${remainingMonths}m`
-    } else if (years > 0) {
-      return `${years}y`
-    } else {
-      return `${months}m`
-    }
-  }
-
-  const duration = calculateDuration(job.startDate, job.endDate)
-
-  // Dynamic analysis using new systems
-  const techFocus = getTechFocus(job.techUsed)
-  const roleContext = analyzeRole(job)
-  const stackComplexity = calculateStackComplexity(job.techUsed)
-  const categorizedAccomplishments = categorizeAccomplishments(job.accomplishments)
-  const accomplishmentStats = getAccomplishmentStats(categorizedAccomplishments)
-
-  const toggleSection = (section: string) => {
-    const newExpanded = new Set(expandedSections)
-    if (newExpanded.has(section)) {
-      newExpanded.delete(section)
-    } else {
-      newExpanded.add(section)
-    }
-    setExpandedSections(newExpanded)
-  }
+  const toggleSection = useCallback((section: string) => {
+    setExpandedSections((prev) => {
+      const next = new Set(prev)
+      if (next.has(section)) {
+        next.delete(section)
+      } else {
+        next.add(section)
+      }
+      return next
+    })
+  }, [])
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -486,8 +502,8 @@ function RouteComponent() {
                                       accomplishment.impact === 'high'
                                         ? 'bg-green-500/10 text-green-600'
                                         : accomplishment.impact === 'medium'
-                                        ? 'bg-yellow-500/10 text-yellow-600'
-                                        : 'bg-muted text-muted-foreground'
+                                          ? 'bg-yellow-500/10 text-yellow-600'
+                                          : 'bg-muted text-muted-foreground'
                                     }`}
                                   >
                                     {accomplishment.impact} impact

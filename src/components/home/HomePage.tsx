@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import { motion } from 'framer-motion'
 import { Link } from '@tanstack/react-router'
 import { BarChart3, TrendingUp, Users, Calendar, MapPin, Clock, Star, Mail, ExternalLink, Layers } from 'lucide-react'
@@ -33,24 +34,21 @@ const HomePage = () => {
   }
 
   const currentJob = RESUME[0]
-  const totalYearsExperience = (() => {
-    const firstJob = RESUME[RESUME.length - 1] // Assuming RESUME is ordered from newest to oldest
+  const { totalYearsExperience, totalProjects, totalTechnologies } = useMemo(() => {
+    const firstJob = RESUME[RESUME.length - 1]
 
-    // Parse the date string "Jul 2017" format
     const parseJobDate = (dateString: string): Date => {
-      // Handle "Present" case
       if (dateString.toLowerCase() === 'present') {
         return new Date()
       }
 
-      // Parse "Month Year" format like "Jul 2017"
       const [month, year] = dateString.split(' ')
       const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
       const monthIndex = monthNames.findIndex((m) => month.includes(m))
 
       if (monthIndex === -1 || !year) {
         console.warn(`Could not parse date: ${dateString}`)
-        return new Date() // Fallback to current date
+        return new Date()
       }
 
       return new Date(parseInt(year), monthIndex)
@@ -60,49 +58,58 @@ const HomePage = () => {
     const currentDate = new Date()
     const diffInMilliseconds = currentDate.getTime() - startDate.getTime()
     const diffInYears = diffInMilliseconds / (1000 * 60 * 60 * 24 * 365.25)
-    return Math.floor(diffInYears)
-  })()
-  const totalProjects = PROJECTS.length
-  const totalTechnologies = Array.from(new Set(RESUME.flatMap((job) => job.techUsed))).length
+
+    return {
+      totalYearsExperience: Math.floor(diffInYears),
+      totalProjects: PROJECTS.length,
+      totalTechnologies: Array.from(new Set(RESUME.flatMap((job) => job.techUsed))).length,
+    }
+  }, [])
 
   // Mock metrics for dashboard feel
-  const metrics = [
-    {
-      label: 'Years Experience',
-      value: `${totalYearsExperience}+`,
-      icon: TrendingUp,
-    },
-    {
-      label: 'Companies',
-      value: RESUME.length.toString(),
-      icon: Users,
-    },
-    {
-      label: 'Projects',
-      value: totalProjects.toString(),
-      icon: BarChart3,
-    },
-    {
-      label: 'Technologies',
-      value: totalTechnologies.toString(),
-      icon: Star,
-    },
-  ]
+  const metrics = useMemo(
+    () => [
+      {
+        label: 'Years Experience',
+        value: `${totalYearsExperience}+`,
+        icon: TrendingUp,
+      },
+      {
+        label: 'Companies',
+        value: RESUME.length.toString(),
+        icon: Users,
+      },
+      {
+        label: 'Projects',
+        value: totalProjects.toString(),
+        icon: BarChart3,
+      },
+      {
+        label: 'Technologies',
+        value: totalTechnologies.toString(),
+        icon: Star,
+      },
+    ],
+    [totalProjects, totalTechnologies, totalYearsExperience],
+  )
 
-  const dashboardSections = [
-    {
-      title: 'Professional Timeline',
-      description: 'Explore my career journey across leading tech companies',
-      icon: Calendar,
-      path: '/resume',
-    },
-    {
-      title: 'Project Portfolio',
-      description: "Discover applications and solutions I've built",
-      icon: Layers,
-      path: '/projects',
-    },
-  ]
+  const dashboardSections = useMemo(
+    () => [
+      {
+        title: 'Professional Timeline',
+        description: 'Explore my career journey across leading tech companies',
+        icon: Calendar,
+        path: '/resume',
+      },
+      {
+        title: 'Project Portfolio',
+        description: "Discover applications and solutions I've built",
+        icon: Layers,
+        path: '/projects',
+      },
+    ],
+    [],
+  )
 
   return (
     <div className='min-h-screen bg-background p-4 md:p-6 space-y-6'>

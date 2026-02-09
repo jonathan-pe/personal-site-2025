@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion'
-import { useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { Link } from '@tanstack/react-router'
 import {
   Calendar,
@@ -69,31 +69,26 @@ const ResumePage = () => {
     },
   }
 
-  const toggleJobDetails = (jobId: string) => {
-    const isCurrentlyExpanded = expandedJob === jobId
-    setExpandedJob(isCurrentlyExpanded ? null : jobId)
-    setSelectedJob(isCurrentlyExpanded ? null : jobId)
-  }
+  const toggleJobDetails = useCallback((jobId: string) => {
+    setExpandedJob((prev) => (prev === jobId ? null : jobId))
+    setSelectedJob((prev) => (prev === jobId ? null : jobId))
+  }, [])
 
-  // Calculate dashboard metrics
-  const totalExperience = (() => {
-    const firstJob = RESUME[RESUME.length - 1] // Assuming RESUME is ordered from newest to oldest
+  const { totalExperience, allTechnologies, totalAccomplishments } = useMemo(() => {
+    const firstJob = RESUME[RESUME.length - 1]
 
-    // Parse the date string "Jul 2017" format
     const parseJobDate = (dateString: string): Date => {
-      // Handle "Present" case
       if (dateString.toLowerCase() === 'present') {
         return new Date()
       }
 
-      // Parse "Month Year" format like "Jul 2017"
       const [month, year] = dateString.split(' ')
       const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
       const monthIndex = monthNames.findIndex((m) => month.includes(m))
 
       if (monthIndex === -1 || !year) {
         console.warn(`Could not parse date: ${dateString}`)
-        return new Date() // Fallback to current date
+        return new Date()
       }
 
       return new Date(parseInt(year), monthIndex)
@@ -103,42 +98,47 @@ const ResumePage = () => {
     const currentDate = new Date()
     const diffInMilliseconds = currentDate.getTime() - startDate.getTime()
     const diffInYears = diffInMilliseconds / (1000 * 60 * 60 * 24 * 365.25)
-    return Math.floor(diffInYears)
-  })()
 
-  const allTechnologies = Array.from(new Set(RESUME.flatMap((job) => job.techUsed)))
-  const totalAccomplishments = RESUME.reduce((total, job) => total + job.accomplishments.length, 0)
+    return {
+      totalExperience: Math.floor(diffInYears),
+      allTechnologies: Array.from(new Set(RESUME.flatMap((job) => job.techUsed))),
+      totalAccomplishments: RESUME.reduce((total, job) => total + job.accomplishments.length, 0),
+    }
+  }, [])
 
-  const dashboardMetrics = [
-    {
-      label: 'Years Experience',
-      value: `${totalExperience}+`,
-      icon: TrendingUp,
-      change: 'Full-Stack Contributor',
-      trend: 'up',
-    },
-    {
-      label: 'Companies',
-      value: RESUME.length.toString(),
-      icon: Building2,
-      change: 'Cross-Industry',
-      trend: 'up',
-    },
-    {
-      label: 'Technologies',
-      value: allTechnologies.length.toString(),
-      icon: Code2,
-      change: 'Avid Learner',
-      trend: 'up',
-    },
-    {
-      label: 'Key Achievements',
-      value: totalAccomplishments.toString(),
-      icon: Star,
-      change: 'Impact Driver',
-      trend: 'up',
-    },
-  ]
+  const dashboardMetrics = useMemo(
+    () => [
+      {
+        label: 'Years Experience',
+        value: `${totalExperience}+`,
+        icon: TrendingUp,
+        change: 'Full-Stack Contributor',
+        trend: 'up',
+      },
+      {
+        label: 'Companies',
+        value: RESUME.length.toString(),
+        icon: Building2,
+        change: 'Cross-Industry',
+        trend: 'up',
+      },
+      {
+        label: 'Technologies',
+        value: allTechnologies.length.toString(),
+        icon: Code2,
+        change: 'Avid Learner',
+        trend: 'up',
+      },
+      {
+        label: 'Key Achievements',
+        value: totalAccomplishments.toString(),
+        icon: Star,
+        change: 'Impact Driver',
+        trend: 'up',
+      },
+    ],
+    [allTechnologies.length, totalAccomplishments, totalExperience],
+  )
 
   return (
     <div className='min-h-screen bg-background p-4 md:p-6'>
