@@ -3,11 +3,31 @@ import type { Job } from '@/types/resume'
 
 export const RESUME: Array<Job> = [
   {
+    id: 'epicGames',
+    companyName: 'Epic Games',
+    role: 'Senior Web Engineer',
+    startDate: 'September 2025',
+    endDate: 'Present',
+    icon: MetaIcon,
+    accomplishments: [
+      "Leading React development for Epic's Self Publishing Tool, driving architectural improvements and scalable feature delivery across the web platform",
+      "Implemented a Node.js backend service to integrate with Epic's internal APIs, enabling seamless data flow and robust integration with frontend interfaces",
+      'Building reusable UI components adopted across multiple internal tools, improving consistency and responsiveness, while also reducing implementation time',
+      'Wrote and maintained unit and end-to-end tests with Jest to ensure application reliability and feature coverage',
+      'Leveraged AI tools to optimize development workflows, including code generation for boilerplate and test cases, while ensuring high code quality through thorough reviews and refactoring',
+    ],
+    techUsed: ['React', 'TypeScript', 'Jest', 'Node.js', 'HTML', 'CSS', 'styled-components', 'AI'],
+    stackFocus: {
+      frontend: 60,
+      backend: 40,
+    },
+  },
+  {
     id: 'meta',
     companyName: 'Meta',
     role: 'Senior Frontend Software Engineer',
     startDate: 'July 2024',
-    endDate: 'Present',
+    endDate: 'September 2025',
     icon: MetaIcon,
     accomplishments: [
       'Led React development for internal Infrastructure & Data Center tools, establishing best practices through PR reviews, documentation, and mentoring backend-heavy teammates',
