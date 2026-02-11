@@ -23,3 +23,7 @@ dist-ssr
 *.sln
 *.sw?
 .vercel
+
+# Serverless build output
+api/*.js
+api/*.js.map

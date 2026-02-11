@@ -1,0 +1,131 @@
+[
+  {
+    "id": "epicGames",
+    "companyName": "Epic Games",
+    "role": "Senior Web Engineer",
+    "startDate": "September 2025",
+    "endDate": "Present",
+    "accomplishments": [
+      "Leading React development for Epic's Self Publishing Tool, driving architectural improvements and scalable feature delivery across the web platform",
+      "Implemented a Node.js backend service to integrate with Epic's internal APIs, enabling seamless data flow and robust integration with frontend interfaces",
+      "Building reusable UI components adopted across multiple internal tools, improving consistency and responsiveness, while also reducing implementation time",
+      "Wrote and maintained unit and end-to-end tests with Jest to ensure application reliability and feature coverage",
+      "Leveraged AI tools to optimize development workflows, including code generation for boilerplate and test cases, while ensuring high code quality through thorough reviews and refactoring"
+    ],
+    "techUsed": ["React", "TypeScript", "Jest", "Node.js", "HTML", "CSS", "styled-components", "AI"],
+    "stackFocus": {
+      "frontend": 60,
+      "backend": 40
+    }
+  },
+  {
+    "id": "meta",
+    "companyName": "Meta",
+    "role": "Senior Frontend Software Engineer",
+    "startDate": "July 2024",
+    "endDate": "September 2025",
+    "accomplishments": [
+      "Led React development for internal Infrastructure & Data Center tools, establishing best practices through PR reviews, documentation, and mentoring backend-heavy teammates",
+      "Spearheaded development of a scalable data visualization dashboard, delivering clean frontend architecture while partnering with TPMs and backend teams to define data contracts",
+      "Built reusable UI components adopted across three internal tools, improving consistency and responsiveness, while also reducing implementation time",
+      "Championed team-wide onboarding and UI quality through design pairing and mentorship",
+      "Wrote and maintained end-to-end tests with Jest to ensure application reliability and feature coverage"
+    ],
+    "techUsed": ["React", "TypeScript", "Jest", "GraphQL", "HTML", "CSS"],
+    "stackFocus": {
+      "frontend": 95,
+      "backend": 5
+    }
+  },
+  {
+    "id": "apple",
+    "companyName": "Apple",
+    "role": "Senior Frontend Software Engineer",
+    "startDate": "Feb 2023",
+    "endDate": "Feb 2024",
+    "accomplishments": [
+      "Spearheaded React development for Apple's internal ML tooling, including building performant interfaces for rendering large-scale logs (~100K+ lines), reducing render time from seconds to milliseconds via virtualization",
+      "Implemented interactive data visualizations for ML logs and system outputs, building scalable React components that handled large datasets with performant rendering, filtering, and context-driven UI features",
+      "Developed a flexible UI component library to drive consistent usage and design, reducing UI redundancy and improving dev efficiency",
+      "Designed and implemented GraphQL APIs using Hasura, and backend REST services with Node.js to enable seamless data flow and robust integration with frontend interfaces",
+      "Led architectural improvements across frontend state, layout, and utility patterns to enable scalable feature delivery without compounding tech debt",
+      "Delivered UX enhancements within strict security and compliance constraints, balancing usability with platform guardrails and performance goals"
+    ],
+    "techUsed": ["React", "JavaScript", "GraphQL", "Hasura", "Node.js", "LESS/SCSS", "ant-design", "HTML", "CSS"],
+    "stackFocus": {
+      "frontend": 90,
+      "backend": 10
+    }
+  },
+  {
+    "id": "reputation",
+    "companyName": "Reputation",
+    "role": "Frontend Software Engineer",
+    "startDate": "Nov 2021",
+    "endDate": "Oct 2022",
+    "accomplishments": [
+      "Led React development of new features to the Social platform, increasing customer reach to their audience",
+      "Collaborated with Product, Management and QA teams showing strong communication skills and ability to work in a collaborative team environment",
+      "Developed integrations with various Social platform APIs (TikTok, Twitter, Google Business Profile, Instagram/Facebook, LinkedIn), enhancing the platform's connectivity and user engagement",
+      "Refactored underlying Front-End infrastructure, making Front-End development easier and quicker"
+    ],
+    "techUsed": ["React", "Angular", "HTML", "CSS", "JavaScript"],
+    "stackFocus": {
+      "frontend": 100,
+      "backend": 0
+    }
+  },
+  {
+    "id": "dolbyIO",
+    "companyName": "Dolby.io",
+    "role": "Full Stack Software Engineer",
+    "startDate": "Aug 2020",
+    "endDate": "Oct 2021",
+    "accomplishments": [
+      "Developed new functionality and webpages using React, Redux, and styled-components, enhancing user experience and interface design",
+      "Refactored existing pages to be mobile-friendly and responsive",
+      "Created a new Node.js microservice to handle 3rd party integrations with our APIs, improving system efficiency and enabling seamless data exchange"
+    ],
+    "techUsed": ["React", "Redux", "styled-components", "Node.js", "JavaScript", "HTML", "CSS"],
+    "stackFocus": {
+      "frontend": 75,
+      "backend": 25
+    }
+  },
+  {
+    "id": "STRATIM_OPENLANE",
+    "companyName": "STRATIM",
+    "role": "Full Stack Software Engineer",
+    "startDate": "Jan 2019",
+    "endDate": "Mar 2020",
+    "accomplishments": [
+      "Built JAVA backend services and implemented new features in STRATIM's iOS application cross-functionally",
+      "Created new and optimized existing Java REST endpoints for STRATIM's mobile application",
+      "Built new features for STRATIM's iOS application, almost doubling its user base",
+      "Investigated, implemented, and lead STRATIM's migration from Vue.js and iOS native to React.js & React Native",
+      "Automated the iOS release/deployment process with fastlane"
+    ],
+    "techUsed": ["Java", "Swift", "React", "React Native", "Vue.js", "iOS", "HTML", "CSS"],
+    "stackFocus": {
+      "frontend": 40,
+      "backend": 60
+    }
+  },
+  {
+    "id": "gliffy",
+    "companyName": "Gliffy Inc.",
+    "role": "Full Stack Software Engineer",
+    "startDate": "Jul 2017",
+    "endDate": "Jan 2019",
+    "accomplishments": [
+      "Built Node.js microservices and frontend Ember.js UIs cross-functionally",
+      "Partnered with UX/design to create new Ember.js webpages for the Gliffy web app",
+      "Created a suite of Node.js microservices, allowing for better scalability and increasing engineering efficiency and output"
+    ],
+    "techUsed": ["Ember.js", "JavaScript", "Node.js", "LESS/SCSS", "HTML", "CSS"],
+    "stackFocus": {
+      "frontend": 50,
+      "backend": 50
+    }
+  }
+]

@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "rootDir": "./api-src",
+    "outDir": "./api",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "noEmit": false,
+    "skipLibCheck": true
+  },
+  "include": [
+    "api-src"
+  ],
+  "exclude": [
+    "api-src/chat-test.ts"
+  ]
+}

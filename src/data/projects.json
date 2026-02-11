@@ -1,0 +1,189 @@
+[
+  {
+    "id": "personalWebsite",
+    "title": "Personal Website",
+    "url": "https://jonathanpe.com",
+    "description": "Personal Website created to practice various skills, learn new technologies, and showcase my work",
+    "techUsed": ["React", "TypeScript", "Tailwind CSS", "Framer Motion", "Vite", "shadcn", "Vercel AI SDK"],
+    "status": "live",
+    "type": "personal",
+    "category": "portfolio",
+    "featured": true,
+    "githubUrls": [
+      {
+        "repoName": "Personal Site 2025",
+        "repoUrl": "https://github.com/jonathan-pe/personal-site-2025"
+      }
+    ],
+    "demoUrl": "https://www.jonathanpe.com",
+    "images": [],
+    "keyFeatures": [
+      "AI-powered chatbot for interactive portfolio exploration",
+      "Responsive design with dark/light mode",
+      "Smooth animations with Framer Motion",
+      "Type-safe routing with TanStack Router",
+      "Modern component system with shadcn and Tailwind CSS",
+      "Built with AI to enhance development efficiency"
+    ],
+    "challenges": [
+      "Integrating AI-powered features on the frontend",
+      "Creating a flexible component system",
+      "Implementing performant animations",
+      "Optimizing for both desktop and mobile"
+    ],
+    "learnings": [
+      "Animation techniques",
+      "Advanced TypeScript patterns",
+      "Modern React development practices",
+      "Design system implementation"
+    ],
+    "tags": ["frontend", "responsive", "modern-stack", "portfolio"],
+    "complexity": "intermediate",
+    "teamSize": 1,
+    "myRole": "Full-stack Developer & Designer"
+  },
+  {
+    "id": "pulse",
+    "title": "Pulse",
+    "url": "https://playpulse.co",
+    "description": "A gamified sports prediction app where users pick game outcomes based on real sportsbook odds to earn points, build streaks, and compete—without any real money or gambling.",
+    "techUsed": [
+      "React",
+      "Vite",
+      "TypeScript",
+      "TanStack Router",
+      "Node.js",
+      "Prisma",
+      "PostgreSQL",
+      "Zustand",
+      "Tailwind CSS",
+      "shadcn",
+      "Zod",
+      "Clerk"
+    ],
+    "status": "in-development",
+    "type": "personal",
+    "category": "web-app",
+    "featured": true,
+    "githubUrls": [
+      {
+        "repoName": "Pulse",
+        "repoUrl": "https://github.com/jonathan-pe/pulse"
+      }
+    ],
+    "keyFeatures": [
+      "Integrated real-time sportsbook odds API",
+      "Developed secure user authentication system",
+      "Shipped responsive Next.js + TypeScript UI",
+      "Built type-safe GraphQL API with Prisma",
+      "Structured relational data in PostgreSQL"
+    ],
+    "challenges": [
+      "Designing fair yet engaging game mechanics",
+      "Navigating legal compliance in game design",
+      "Implementing scalable, secure authentication",
+      "Architecting for easy future feature expansion"
+    ],
+    "learnings": [
+      "Structured game logic improves long-term scalability",
+      "Effective caching strategies are critical for live data",
+      "Well-designed incentives drive consistent engagement",
+      "Authentication systems require robust configuration",
+      "PostgreSQL + Prisma enables clean, maintainable schemas",
+      "Code-first GraphQL accelerates iteration and refactoring"
+    ],
+    "tags": ["full-stack", "gaming"],
+    "complexity": "advanced",
+    "teamSize": 1,
+    "myRole": "Full-stack Developer & Designer & System Architect"
+  },
+  {
+    "id": "kinshipr",
+    "title": "kinshipr",
+    "url": null,
+    "description": "A social networking and event planning platform that makes it easy to create, share, and relive moments with friends through simple invites, interactive event feeds, and shared photo memories",
+    "techUsed": [
+      "React",
+      "TypeScript",
+      "Vite",
+      "TanStack Router",
+      "Zustand",
+      "Tailwind CSS",
+      "React Native",
+      "shadcn",
+      "Node.js",
+      "Express",
+      "MongoDB",
+      "Zod",
+      "Clerk"
+    ],
+    "status": "in-development",
+    "type": "personal",
+    "category": "web-app",
+    "featured": false,
+    "githubUrls": [
+      {
+        "repoName": "kinshipr Web App",
+        "repoUrl": "https://github.com/jonathan-pe/kinshipr"
+      },
+      {
+        "repoName": "kinshipr Mobile App",
+        "repoUrl": "https://github.com/jonathan-pe/kinshipr-mobile"
+      }
+    ],
+    "keyFeatures": [
+      "User authentication and profiles",
+      "Friend network management",
+      "Event creation and details",
+      "RSVP tracking",
+      "Secure data storage",
+      "Type-safe API validation"
+    ],
+    "challenges": [
+      "Balancing rapid iteration speed with long-term maintainability",
+      "Designing a scalable backend architecture while keeping the MVP lightweight",
+      "Implementing authentication flows that work seamlessly across web and planned mobile platforms",
+      "Structuring MongoDB schemas to support both current features and future expansions",
+      "Managing complex state synchronization between client UI and backend API responses"
+    ],
+    "learnings": [
+      "Refined skills in designing flexible, future-proof data models",
+      "Gained deeper expertise in architecting scalable Node.js and MongoDB backends",
+      "Learned how to integrate Clerk authentication into a custom backend for more control",
+      "Improved proficiency in state management patterns for multi-platform applications",
+      "Adopted a development mindset that balances speed with clean, maintainable code"
+    ],
+    "tags": ["full-stack", "mobile", "social", "enterprise"],
+    "complexity": "advanced",
+    "teamSize": 1,
+    "myRole": "Full-stack Developer & Designer & System Architect"
+  },
+  {
+    "id": "5oclock",
+    "title": "It's 5 O'Clock Somewhere",
+    "url": "https://www.5oclock.club",
+    "description": "App that shows where in the world it's 5:00pm and suggests a beverage to consume based on location",
+    "techUsed": ["React", "Vite", "shadcn", "TypeScript", "Tailwind CSS"],
+    "status": "live",
+    "type": "personal",
+    "category": "web-app",
+    "featured": false,
+    "githubUrls": [
+      {
+        "repoName": "It's 5 O'Clock Somewhere",
+        "repoUrl": "https://github.com/jonathan-pe/5oclocksomewhere"
+      }
+    ],
+    "keyFeatures": [
+      "Real-time timezone calculations",
+      "Location-based beverage suggestions",
+      "Interactive world map interface"
+    ],
+    "challenges": ["Handling complex timezone logic", "Creating intuitive user interface", "Integrating location APIs"],
+    "learnings": ["UI/UX design principles", "Working with date/time libraries", "API integration patterns"],
+    "tags": ["frontend", "api-integration", "fun-project"],
+    "complexity": "beginner",
+    "teamSize": 1,
+    "myRole": "Frontend Developer"
+  }
+]

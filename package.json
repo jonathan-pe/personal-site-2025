@@ -7,9 +7,11 @@
   "scripts": {
     "dev": "concurrently \"pnpm dev:client\" \"pnpm dev:api\"",
     "dev:client": "vite",
-    "dev:api": "vercel dev",
+    "dev:api": "concurrently \"pnpm api:watch\" \"vercel dev\"",
     "dev:vercel": "vercel dev",
-    "build": "tsc -b && vite build",
+    "api:build": "tsc -p tsconfig.api.json",
+    "api:watch": "tsc -p tsconfig.api.json --watch",
+    "build": "pnpm api:build && tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
@@ -39,7 +41,8 @@
     "react-markdown": "^10.1.0",
     "remark-gfm": "^4.0.1",
     "tailwind-merge": "^3.3.1",
-    "tailwindcss": "^4.1.11"
+    "tailwindcss": "^4.1.11",
+    "zod": "3.25.76"
   },
   "devDependencies": {
     "@eslint/js": "^9.30.1",
@@ -61,5 +64,10 @@
     "typescript-eslint": "^8.35.1",
     "vercel": "^46.0.1",
     "vite": "^7.0.4"
+  },
+  "pnpm": {
+    "overrides": {
+      "zod": "3.25.76"
+    }
   }
 }
