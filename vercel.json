@@ -1,14 +1,6 @@
 {
   "buildCommand": "pnpm run build",
   "outputDirectory": "dist",
-  "functions": {
-    "api/chat.js": {
-      "maxDuration": 30
-    },
-    "api/health.js": {
-      "maxDuration": 10
-    }
-  },
   "rewrites": [
     {
       "source": "/api/(.*)",
